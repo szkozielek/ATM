@@ -32,7 +32,9 @@ std::string App::env(const std::string & key, std::string _default = ""){
 }
 
 void App::run(){
-    *this->output << colors::red << helloworld::sayHello("cruel World") << colors::white << std::endl;
+    layout::Index idx(this->output);
+    layout::Exit ext(this->output);
+    idx.show();
     this->input->get();
-    menu::clearScreen(*this->output);
+    ext.show();
 }

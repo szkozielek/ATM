@@ -6,8 +6,9 @@
 #include <FileReader\FileReader.h>
 #include <Menu\Colors.h>
 #include <Menu\Menu.h>
-#include <HelloWorld/HelloWorld.h>
-#include "BadEnvFile.h"
+#include "exceptions/BadEnvFile.h"
+#include "layout/Index.h"
+#include "layout/Exit.h"
 
 class App{
     std::map<std::string, std::string> config;
@@ -17,7 +18,6 @@ class App{
     void getenv();
     std::string env(const std::string &, std::string);
 public:
-    
-    App( std::istream * , std::ostream *);
+    App(std::istream *, std::ostream *);
     void run();
 };
