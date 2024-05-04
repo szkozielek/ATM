@@ -14,6 +14,8 @@ set(CM_LIBRARIES_DIR
 )
 set(CM_LIBRARIES 
     HelloWorld
+    Menu
+    FileReader
 )
 
 project(${CM_PROJECT_NAME})
@@ -33,4 +35,7 @@ add_executable(${CM_PROJECT_NAME} ${CM_SOURCE})
 foreach(LIBRARY ${CM_LIBRARIES})
     add_subdirectory("${CM_LIBRARIES_DIR}/${LIBRARY}")
 endforeach(LIBRARY)
+
 target_link_libraries(${CM_PROJECT_NAME} ${CM_LIBRARIES})
+
+configure_file(.env.example .env)

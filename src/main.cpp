@@ -1,7 +1,10 @@
-#include <iostream>
-#include <HelloWorld/HelloWorld.h>
+#include "app/App.h"
+#include "app/App.cpp"
 
-int main(){
-    helloworld::sayHello(std::cout, "cruel World");
+int main(int argc, char* argv[]){
+    App * myApp;
+    myApp = new App(&std::cin, &std::cout);
+    myApp->run();
+    delete myApp;
     return 0;
 }
