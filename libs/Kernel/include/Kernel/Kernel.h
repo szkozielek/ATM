@@ -2,10 +2,10 @@
 
 class Kernel {
 protected:
-    int argc;
-    char ** const argv;
+    const int argc;
+    const char ** const argv;
     virtual void initArgs() = 0;
 public:
-    Kernel(int, char ** const);
+    Kernel(const int, const char ** const);
     virtual void run() = 0;
 };

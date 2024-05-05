@@ -18,6 +18,7 @@ set(CM_LIBRARIES
     Menu
     FileReader
     GetEnv
+    SmartString
 )
 
 project(${CM_PROJECT_NAME})

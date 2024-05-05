@@ -1,37 +1,30 @@
 #include "App.h"
 
 void App::initArgs(){
-    colors::useColors = (this->env("USE_COLORS", "true")) == "true" ;
+    colors::useColors = (this->env("USE_COLORS", "true")) == "true";
     menu::useConsoleClear = (this->env("USE_SPACES", "true")) == "true";
 }
 
-App::App(std::istream * in, std::ostream * out) : ConsoleKernel(0, nullptr, in, out){
+App::App(const int argc, const char** const argv, std::istream * const in, std::ostream * const out) : ConsoleKernel(argc, argv, in, out){
     this->getenv();
     this->initArgs();
 }
 
 void App::run(){
-    layout::Index idx(this->output);
-    layout::Exit ext(this->output);
     std::map<std::string, std::string> options = {{"1", "Zaloz konto"}, {"2", "Wyplac pieniadze"}, {"3", "Wplac pieniadze"}, {"q", "Zakoncz prace"}};
-    layout::Select sel(this->output, options);
     std::string selectedOption = "";
-    idx.show();
+    layout::show<layout::Index>(this->output);
     this->input->get();
-    while(true){
+    do{
         menu::clearScreen(*this->output);
         *this->output << "Co chcesz dzisiaj zrobic?" << std::endl;
         if(selectedOption != ""){
-            *this->output << colors::red << "* Wybierz element z listy" << colors::white << std::endl;
+            layout::show<layout::ValidateError>(this->output, "Wybierz element z listy");
         }
         *this->output << std::endl;
-        sel.show();
+        layout::show<layout::Select>(this->output, options);
         *this->input >> selectedOption;
-        
-        if(selectedOption == "q"){
-            break;
-        }
-    }
+    }while( smartstring::lower(selectedOption) != "q" && smartstring::lower(selectedOption) != "quit" );
 
-    ext.show();
+    layout::show<layout::Exit>(this->output);
 }

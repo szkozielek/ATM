@@ -7,5 +7,5 @@ class ConsoleKernel: public Kernel{
         std::istream * const input;
         std::ostream * const output;
     public:
-        ConsoleKernel(int, char** const, std::istream *, std::ostream *);
+        ConsoleKernel(const int, const char** const, std::istream * const, std::ostream * const);
 };

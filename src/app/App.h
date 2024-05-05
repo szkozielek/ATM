@@ -6,14 +6,16 @@
 #include <Menu/Menu.h>
 #include <GetEnv/GetEnv.h>
 #include <Kernel/ConsoleKernel.h>
+#include <SmartString/SmartString.h>
 #include "layout/Index.h"
 #include "layout/Exit.h"
 #include "layout/Select.h"
+#include "layout/ValidateError.h"
 
 class App: public ConsoleKernel, protected GetEnv{
     std::map<std::string, std::string> config;
     void initArgs();
 public:
-    App(std::istream *, std::ostream *);
+    App(const int argc, const char** const argv, std::istream * const, std::ostream * const);
     void run();
 };
