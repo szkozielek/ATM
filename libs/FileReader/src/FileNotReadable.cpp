@@ -3,5 +3,5 @@
 except::FileNotReadable::FileNotReadable(char * filename) : filename(filename){}
 
 const char * except::FileNotReadable::what() const noexcept {
-    return strcat("Program couldn't read this file: ", this->filename);
+    return strcat((char *)"Program couldn't read this file: ", this->filename);
 }

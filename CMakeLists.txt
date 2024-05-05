@@ -13,9 +13,11 @@ set(CM_LIBRARIES_DIR
     libs
 )
 set(CM_LIBRARIES 
+    Kernel
     HelloWorld
     Menu
     FileReader
+    GetEnv
 )
 
 project(${CM_PROJECT_NAME})

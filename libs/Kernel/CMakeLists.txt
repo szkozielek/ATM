@@ -2,11 +2,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJECT_NAME
-    FileReaderLibrary
+    KernelLibrary
 )
 
 set(LIBRARY_NAME
-    FileReader
+    Kernel
 )
 
 set(LIBRARY_HEADERS_DIR
@@ -14,10 +14,8 @@ set(LIBRARY_HEADERS_DIR
 )
 
 set(LIBRARY_HEADERS
-    ${LIBRARY_HEADERS_DIR}/FileReader.h
-    # exceptions
-    ${LIBRARY_HEADERS_DIR}/FileNotFound.h
-    ${LIBRARY_HEADERS_DIR}/FileNotReadable.h
+    ${LIBRARY_HEADERS_DIR}/Kernel.h
+    ${LIBRARY_HEADERS_DIR}/ConsoleKernel.h
 )
 
 set(LIBRARY_SOURCE_DIR
@@ -25,10 +23,8 @@ set(LIBRARY_SOURCE_DIR
 )
 
 set(LIBRARY_SOURCE
-    ${LIBRARY_SOURCE_DIR}/FileReader.cpp
-    # exceptions
-    ${LIBRARY_SOURCE_DIR}/FileNotFound.cpp
-    ${LIBRARY_SOURCE_DIR}/FileNotReadable.cpp
+    ${LIBRARY_SOURCE_DIR}/Kernel.cpp
+    ${LIBRARY_SOURCE_DIR}/ConsoleKernel.cpp
 )
 
 project(${PROJECT_NAME})
@@ -36,10 +32,6 @@ project(${PROJECT_NAME})
 add_library(${LIBRARY_NAME} STATIC
     ${LIBRARY_HEADERS}
     ${LIBRARY_SOURCE}
-)
-
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_include_directories(${LIBRARY_NAME} PRIVATE
