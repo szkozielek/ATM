@@ -18,16 +18,20 @@ void App::run(){
     do{
         menu::clearScreen(*this->output);
         *this->output << "Co chcesz dzisiaj zrobic?" << std::endl;
-        if(selectedOption != ""){
+        if(selectedOption != "" && (options.find(selectedOption) == options.end())){
             layout::show<layout::ValidateError>(this->output, "Wybierz element z listy");
         }
         *this->output << std::endl;
         layout::show<layout::Select>(this->output, options);
         *this->input >> selectedOption;
         selectedOption = smartstring::lower(selectedOption);
-        
+        if(selectedOption == "1"){
+            BankAccountController accountCtrl(this->input, this->output);
+            accountCtrl.create();
+        }
 
-    }while(selectedOption != "q" && selectedOption != "quit" );
+
+    }while(selectedOption != "q");
 
     layout::show<layout::Exit>(this->output);
 }

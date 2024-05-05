@@ -11,6 +11,8 @@
 #include "layout/Exit.h"
 #include "layout/Select.h"
 #include "layout/ValidateError.h"
+#include "controllers/BankAccountController.h"
+#include "controllers/BankAccountController.cpp"
 
 class App: public ConsoleKernel, protected GetEnv{
     std::map<std::string, std::string> config;
