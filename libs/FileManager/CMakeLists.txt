@@ -2,11 +2,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJECT_NAME
-    FileReaderLibrary
+    FileManagerLibrary
 )
 
 set(LIBRARY_NAME
-    FileReader
+    FileManager
 )
 
 set(LIBRARY_HEADERS_DIR
@@ -15,6 +15,7 @@ set(LIBRARY_HEADERS_DIR
 
 set(LIBRARY_HEADERS
     ${LIBRARY_HEADERS_DIR}/FileReader.h
+    ${LIBRARY_HEADERS_DIR}/FileWriter.h
     # exceptions
     ${LIBRARY_HEADERS_DIR}/FileNotFound.h
     ${LIBRARY_HEADERS_DIR}/FileNotReadable.h
@@ -26,6 +27,7 @@ set(LIBRARY_SOURCE_DIR
 
 set(LIBRARY_SOURCE
     ${LIBRARY_SOURCE_DIR}/FileReader.cpp
+    ${LIBRARY_SOURCE_DIR}/FileWriter.cpp
     # exceptions
     ${LIBRARY_SOURCE_DIR}/FileNotFound.cpp
     ${LIBRARY_SOURCE_DIR}/FileNotReadable.cpp

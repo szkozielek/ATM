@@ -32,7 +32,7 @@ add_library(${LIBRARY_NAME} STATIC
     ${LIBRARY_SOURCE}
 )
 
-target_link_libraries(${LIBRARY_NAME} FileReader)
+target_link_libraries(${LIBRARY_NAME} FileManager)
 
 target_include_directories(${LIBRARY_NAME} PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${LIBRARY_NAME}>

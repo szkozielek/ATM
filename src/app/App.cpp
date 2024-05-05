@@ -24,7 +24,10 @@ void App::run(){
         *this->output << std::endl;
         layout::show<layout::Select>(this->output, options);
         *this->input >> selectedOption;
-    }while( smartstring::lower(selectedOption) != "q" && smartstring::lower(selectedOption) != "quit" );
+        selectedOption = smartstring::lower(selectedOption);
+        
+
+    }while(selectedOption != "q" && selectedOption != "quit" );
 
     layout::show<layout::Exit>(this->output);
 }

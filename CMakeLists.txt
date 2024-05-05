@@ -14,9 +14,8 @@ set(CM_LIBRARIES_DIR
 )
 set(CM_LIBRARIES 
     Kernel
-    HelloWorld
     Menu
-    FileReader
+    FileManager
     GetEnv
     SmartString
 )
@@ -42,3 +41,4 @@ endforeach(LIBRARY)
 target_link_libraries(${CM_PROJECT_NAME} ${CM_LIBRARIES})
 
 configure_file(.env.example .env)
+configure_file(bank_accounts.txt bank_accounts.txt)
