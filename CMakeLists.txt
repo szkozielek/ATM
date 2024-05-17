@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.0)
 
 set(CM_PROJECT_NAME
-    CashMachine
+    ATM
 )
 set(CM_SOURCE_DIR
     src
@@ -18,6 +18,7 @@ set(CM_LIBRARIES
     FileManager
     GetEnv
     SmartString
+    ChangeMaking
 )
 
 project(${CM_PROJECT_NAME})
