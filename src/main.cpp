@@ -1,6 +1,3 @@
-// #include "app/Bootstrap.h"
-// #include "app/App.h"
-// #include "app/App.cpp"
 #include <app/Bootstrap.h>
 #include <app/App.h>
 
