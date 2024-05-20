@@ -6,10 +6,10 @@
 
 
 namespace layout{
-    class Index: public Layout{
+    class Cover: public Layout{
     public:
-        Index(std::ostream * output) : Layout(output) {}
-        void show(){
+        inline Cover(std::ostream * output) : Layout(output) {}
+        inline void show(){
             *this->output << colors::yellow;
             menu::boldLine(*this->output, 40) << std::endl;
             menu::line(*this->output, 40) << std::endl;

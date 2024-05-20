@@ -20,6 +20,11 @@ set(CM_LIBRARIES
     SmartString
     ChangeMaking
 )
+set(CM_PROJECT_LIBS
+    app
+    controllers
+    layout
+)
 
 project(${CM_PROJECT_NAME})
 
@@ -33,13 +38,22 @@ project(${CM_PROJECT_NAME})
 ###########
 # Project #
 ###########
+
+
 add_executable(${CM_PROJECT_NAME} ${CM_SOURCE})
 
 foreach(LIBRARY ${CM_LIBRARIES})
     add_subdirectory("${CM_LIBRARIES_DIR}/${LIBRARY}")
 endforeach(LIBRARY)
 
+foreach(LIBRARY ${CM_PROJECT_LIBS})
+    add_subdirectory("${CM_SOURCE_DIR}/${LIBRARY}")
+endforeach(LIBRARY)
+
+target_link_libraries(${CM_PROJECT_NAME} ${CM_PROJECT_LIBS})
+
 target_link_libraries(${CM_PROJECT_NAME} ${CM_LIBRARIES})
+
 
 configure_file(.env.example .env)
 configure_file(bank_accounts.txt bank_accounts.txt)

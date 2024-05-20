@@ -17,6 +17,7 @@ void GetEnv::getenv(){
     }
 }
 
-std::string GetEnv::env(const std::string & key, std::string _default = ""){
-    return this->config.count(key) < 1 ? _default : this->config[key];
+std::string GetEnv::env(const std::string & key, std::string _default = "") const
+{
+    return this->config.count(key) < 1 ? _default : this->config.at(key);
 }

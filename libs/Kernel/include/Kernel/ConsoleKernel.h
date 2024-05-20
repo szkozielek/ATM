@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <GetEnv/GetEnv.h>
 #include "Kernel.h"
 
 class ConsoleKernel: public Kernel{
@@ -7,5 +8,5 @@ class ConsoleKernel: public Kernel{
         std::istream * const input;
         std::ostream * const output;
     public:
-        ConsoleKernel(const int, const char** const, std::istream * const, std::ostream * const);
+        ConsoleKernel(const int, const char** const, const GetEnv * const, std::istream * const, std::ostream * const);
 };

@@ -6,8 +6,8 @@
 
 class GetEnv{
     std::map<std::string, std::string> config;
-protected:
-    void getenv();
-    std::string env(const std::string &, std::string);
+public:
     GetEnv(){};
+    void getenv();
+    std::string env(const std::string &, std::string) const;
 };

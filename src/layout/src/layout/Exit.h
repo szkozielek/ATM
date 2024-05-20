@@ -8,8 +8,8 @@
 namespace layout{
     class Exit: public Layout{
     public:
-        Exit(std::ostream * output) : Layout(output) {}
-        void show(){
+        inline Exit(std::ostream * output) : Layout(output) {}
+        inline void show(){
             menu::clearScreen(*this->output);
             *this->output << colors::green << "~~bye" << std::endl << std::endl << std::endl << std::endl << colors::white;
         }

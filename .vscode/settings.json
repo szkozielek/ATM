@@ -53,6 +53,7 @@
         "mutex": "cpp",
         "thread": "cpp",
         "cstring": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "set": "cpp"
     }
 }
