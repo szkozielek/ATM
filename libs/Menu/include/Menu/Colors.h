@@ -3,9 +3,11 @@
 #include <string>
 #include <map>
 
-namespace colors{
+namespace colors
+{
     extern bool useColors;
-    enum color{
+    enum color
+    {
         white,
         red,
         green,
@@ -15,7 +17,6 @@ namespace colors{
         {colors::white, "\x1b[0m"},
         {colors::red, "\x1b[31m"},
         {colors::green, "\x1b[32m"},
-        {colors::yellow, "\x1b[93m"}
-    };
+        {colors::yellow, "\x1b[93m"}};
 }
-std::ostream & operator<<(std::ostream &, const colors::color &);
+std::ostream &operator<<(std::ostream &, const colors::color &);

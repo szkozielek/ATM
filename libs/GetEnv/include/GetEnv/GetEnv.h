@@ -4,8 +4,10 @@
 #include <FileManager/FileReader.h>
 #include "BadEnvFile.h"
 
-class GetEnv{
+class GetEnv
+{
     std::map<std::string, std::string> config;
+
 public:
     GetEnv(){};
     void getenv();
