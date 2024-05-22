@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 bool menu::useConsoleClear = false;
+bool menu::useConsoleHide = false;
 
 std::ostream &menu::clearScreen(std::ostream &out)
 {
@@ -28,4 +29,21 @@ std::ostream &menu::boldLine(std::ostream &out, unsigned short length)
 std::ostream &menu::line(std::ostream &out, unsigned short length)
 {
     return menu::drawSign(out, length, '-');
+}
+
+std::ostream & menu::hideText(std::ostream &out)
+{
+    if (menu::useConsoleHide)
+    {
+        out << "\x1B[8m";
+    }
+    return out;
+}
+std::ostream & menu::showText(std::ostream &out)
+{
+    if (menu::useConsoleHide)
+    {
+        out << "\x1B[28m";
+    }
+    return out;
 }

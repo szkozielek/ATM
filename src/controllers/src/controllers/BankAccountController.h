@@ -13,6 +13,9 @@
 
 #include <layout/Select.h>
 #include <layout/ValidateError.h>
+#include <layout/Password.h>
+
+#include <models/BankAccount.h>
 
 #include "Controller.h"
 class BankAccountController : protected Controller{

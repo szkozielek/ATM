@@ -24,6 +24,7 @@ set(CM_PROJECT_LIBS
     app
     controllers
     layout
+    models
 )
 
 project(${CM_PROJECT_NAME})

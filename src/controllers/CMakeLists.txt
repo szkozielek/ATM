@@ -11,3 +11,4 @@ target_include_directories(controllers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(controllers ${CM_LIBRARIES})
 target_link_libraries(controllers layout)
+target_link_libraries(controllers models)

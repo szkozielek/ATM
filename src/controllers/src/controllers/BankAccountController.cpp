@@ -7,17 +7,24 @@ BankAccountController::BankAccountController(
 
 void BankAccountController::create()
 {
-    std::string name, surname;
-    unsigned int toGet;
-    std::map<unsigned int, unsigned int> cashToGive;
-    std::map<unsigned int, unsigned int>::iterator cashIter;
-
+    BankAccount * newAccount;
+    char currentEl;
+    std::string pin;
     menu::clearScreen(*this->output);
-    *this->output << "Podaj imie: " << colors::yellow;
-    *this->input >> name;
-    *this->output << colors::white << "Podaj nazwisko: " << colors::yellow;
-    *this->input >> surname;
-    *this->output << colors::white;
+    this->output->width(15);
+    *this->output << "Wprowadz kod PIN do karty: ";
+    menu::hideText(*this->output);
+    *this->input >> pin;
+    menu::showText(*this->output);
+    *this->output << std::endl;
+    newAccount = new BankAccount(pin);
+    newAccount->store();
+
+    *this->output << "Twoj numer karty:\t" << colors::yellow << newAccount->getCardID() << colors::white << std::endl;
+    this->input->ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    this->input->get();
+
+    delete newAccount;
 }
 
 void BankAccountController::getCash()

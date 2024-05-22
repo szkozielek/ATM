@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <fstream>
 #include "FileNotFound.h"
@@ -10,6 +11,7 @@ class FileReader
 
 public:
     FileReader(const std::string &);
+    std::string getLastLine();
     bool isEOF();
     template <typename T>
     FileReader &operator>>(T &var)
