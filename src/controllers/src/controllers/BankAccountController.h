@@ -23,5 +23,6 @@ public:
     BankAccountController(const GetEnv * const, std::istream * const, std::ostream * const);
     void create();
     void getCash();
+    void login();
 
 };

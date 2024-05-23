@@ -18,6 +18,10 @@ bool FileReader::isEOF()
     return this->file.eof();
 }
 
+FileReader::operator bool(){
+    return !this->isEOF();
+}
+
 std::string FileReader::getLastLine()
 {
     std::streampos curPos;

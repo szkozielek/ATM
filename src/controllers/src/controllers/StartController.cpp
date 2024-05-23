@@ -15,7 +15,7 @@ void StartController::index()
 {
     std::string selectedOption = "";
     std::set<std::string> bankAccountOptions = {"1", "2", "3"};
-    std::map<std::string, std::string> options = {{"1", "Zaloz konto"}, {"2", "Wyplac pieniadze"}, {"3", "Wplac pieniadze"}, {"q", "Zakoncz prace"}};
+    std::map<std::string, std::string> options = {{"1", "Odbierz nowa karte"}, {"2", "Wyplac pieniadze"}, {"3", "Wplac pieniadze"}, {"q", "Zakoncz prace"}};
     do
     {
         menu::clearScreen(*this->output);
@@ -38,6 +38,9 @@ void StartController::index()
             else if (selectedOption == "2")
             {
                 ctrElement->getCash();
+            }
+            else if (selectedOption == "3"){
+                ctrElement->login();
             }
             delete ctrElement;
         }

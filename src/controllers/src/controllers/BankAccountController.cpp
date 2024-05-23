@@ -9,7 +9,8 @@ void BankAccountController::create()
 {
     BankAccount * newAccount;
     char currentEl;
-    std::string pin;
+    std::string pin, cardID;
+
     menu::clearScreen(*this->output);
     this->output->width(15);
     *this->output << "Wprowadz kod PIN do karty: ";
@@ -17,10 +18,10 @@ void BankAccountController::create()
     *this->input >> pin;
     menu::showText(*this->output);
     *this->output << std::endl;
-    newAccount = new BankAccount(pin);
-    newAccount->store();
+    newAccount = BankAccount::make(pin);
+    cardID = newAccount->store();
 
-    *this->output << "Twoj numer karty:\t" << colors::yellow << newAccount->getCardID() << colors::white << std::endl;
+    *this->output << "Twoj numer karty:\t" << colors::yellow << cardID << colors::white << std::endl;
     this->input->ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     this->input->get();
 
@@ -82,4 +83,26 @@ void BankAccountController::getCash()
             this->input->get();
         }
     } while ((options.find(selectedOption) == options.end()));
+}
+
+void BankAccountController::login(){
+    std::string cardID, pin;
+    BankAccount * newAccount;
+
+    menu::clearScreen(*this->output);
+
+    this->output->width(15);
+    *this->output << "Wprowadz ID karty: " << colors::yellow;
+    *this->input >> cardID;
+    *this->output << colors::white << std::endl;
+
+    this->output->width(15);
+    *this->output << "Wprowadz kod PIN do karty: ";
+    menu::hideText(*this->output);
+    *this->input >> pin;
+    menu::showText(*this->output);
+
+    newAccount = BankAccount::login(cardID, pin);
+    
+
 }

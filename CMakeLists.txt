@@ -19,6 +19,7 @@ set(CM_LIBRARIES
     GetEnv
     SmartString
     ChangeMaking
+    Hash
 )
 set(CM_PROJECT_LIBS
     app
@@ -56,5 +57,24 @@ target_link_libraries(${CM_PROJECT_NAME} ${CM_PROJECT_LIBS})
 target_link_libraries(${CM_PROJECT_NAME} ${CM_LIBRARIES})
 
 
-configure_file(.env.example .env)
-configure_file(bank_accounts.txt bank_accounts.txt)
+set(CM_ACCOUNT_DIR bank)
+set(CM_ACCOUNT_FILE bank_accounts.txt)
+set(CM_ATM_DIR cashbox)
+set(CM_CURRENCIES
+    PLN
+    EUR
+    USD
+    CHF
+    GBP
+    JPY
+)
+
+
+configure_file(.env.example .env @ONLY)
+
+configure_file(resources/bank_accounts.txt ${CM_ACCOUNT_DIR}/${CM_ACCOUNT_FILE})
+
+foreach(CM_CURRENCY ${CM_CURRENCIES})
+    configure_file(resources/currency.txt ${CM_ACCOUNT_DIR}/${CM_CURRENCY}.txt)
+    configure_file(resources/cashbox.txt ${CM_ATM_DIR}/${CM_CURRENCY}.txt)
+endforeach(CM_CURRENCY)

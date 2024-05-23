@@ -13,6 +13,7 @@ public:
     FileReader(const std::string &);
     std::string getLastLine();
     bool isEOF();
+    operator bool();
     template <typename T>
     FileReader &operator>>(T &var)
     {

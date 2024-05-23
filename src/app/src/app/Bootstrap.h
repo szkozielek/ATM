@@ -15,5 +15,6 @@ inline void bootstrap(const GetEnv *const config)
     menu::useConsoleHide = (config->env("USE_HIDE", "true")) == "true";
     
     // set models global variables
+    BankAccount::filedir = config->env("BANK_ACCOUNT_DIR", "");
     BankAccount::filename = config->env("BANK_ACCOUNT_FILENAME", "");
 }
