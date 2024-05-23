@@ -43,10 +43,6 @@ bool BankAccount::checkIfValid(const std::string & myCardID, const std::string &
 
     while(!bankAccountsResources->isEOF()){
         *bankAccountsResources >> cardID >> hash;
-        std::cerr << std::endl;
-        std::cerr << myCardID << "\t" << myHash << std::endl;
-        std::cerr << cardID << "\t" << hash << std::endl;
-        std::cerr << std::endl;
         if(myCardID == cardID && hash == myHash){
             result = true;
         }
@@ -107,8 +103,9 @@ void BankAccount::generateCardID()
 std::string BankAccount::store()
 {
     FileWriter * bankAccountsResources = new FileWriter(this->getFilePath(), true);
-    if(this->cardID != "1000000000000000"){
+    if(!bankAccountsResources->isEmpty()){ // sprawdź, czy plik pusty, anie czy card ID jest jakieś
         *bankAccountsResources << '\n';
+        std::cerr << "qwewqe" << std::endl;
     }
     *bankAccountsResources << this->cardID << " " << hash::generate(this->cardID + this->pin);
     

@@ -11,6 +11,7 @@ class FileWriter
 public:
     FileWriter(const std::string &, bool);
     bool isEOF();
+    bool isEmpty();
     template <typename T>
     FileWriter &operator<<(const T &var)
     {
