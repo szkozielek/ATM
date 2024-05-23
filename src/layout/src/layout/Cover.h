@@ -24,7 +24,7 @@ namespace layout
             *this->output << colors::white << std::endl
                           << std::endl
                           << std::endl;
-            *this->output << "Nacisnij dowolny klawisz, aby rozpoczac..." << std::endl
+            *this->output << "Nacisnij klawisz "<< colors::yellow << "ENTER" << colors::white <<", aby rozpoczac..." << std::endl
                           << std::endl;
         }
     };

@@ -60,6 +60,7 @@ target_link_libraries(${CM_PROJECT_NAME} ${CM_LIBRARIES})
 set(CM_ACCOUNT_DIR bank)
 set(CM_ACCOUNT_FILE bank_accounts.txt)
 set(CM_ATM_DIR cashbox)
+set(CM_ATM_DEFAULT_KEY f1b4c587-f9f6-4f0c-b6f2-321a51e41789)
 set(CM_CURRENCIES
     PLN
     EUR
@@ -76,5 +77,5 @@ configure_file(resources/bank_accounts.txt ${CM_ACCOUNT_DIR}/${CM_ACCOUNT_FILE})
 
 foreach(CM_CURRENCY ${CM_CURRENCIES})
     configure_file(resources/currency.txt ${CM_ACCOUNT_DIR}/${CM_CURRENCY}.txt)
-    configure_file(resources/cashbox.txt ${CM_ATM_DIR}/${CM_CURRENCY}.txt)
+    # configure_file(resources/cashbox.txt ${CM_ATM_DIR}/${CM_CURRENCY}.txt)
 endforeach(CM_CURRENCY)

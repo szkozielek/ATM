@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <iomanip>
 
 #include <GetEnv/GetEnv.h>
 #include <ChangeMaking/ChangeMaking.h>
@@ -19,10 +20,13 @@
 
 #include "Controller.h"
 class BankAccountController : protected Controller{
+    BankAccount * login();
+    unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
 public:
     BankAccountController(const GetEnv * const, std::istream * const, std::ostream * const);
     void create();
     void getCash();
-    void login();
+    void insertCash();
+    
 
 };

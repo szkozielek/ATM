@@ -9,6 +9,7 @@ void StartController::cover()
 {
     layout::show<layout::Cover>(this->output);
     this->input->get();
+    this->input->clear();
 }
 
 void StartController::index()
@@ -40,9 +41,10 @@ void StartController::index()
                 ctrElement->getCash();
             }
             else if (selectedOption == "3"){
-                ctrElement->login();
+                ctrElement->insertCash();
             }
             delete ctrElement;
         }
     } while (selectedOption != "q");
+    
 }
