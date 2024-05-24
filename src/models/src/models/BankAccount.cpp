@@ -103,9 +103,8 @@ void BankAccount::generateCardID()
 std::string BankAccount::store()
 {
     FileWriter * bankAccountsResources = new FileWriter(this->getFilePath(), true);
-    if(!bankAccountsResources->isEmpty()){ // sprawdź, czy plik pusty, anie czy card ID jest jakieś
+    if(!bankAccountsResources->isEmpty()){
         *bankAccountsResources << '\n';
-        std::cerr << "qwewqe" << std::endl;
     }
     *bankAccountsResources << this->cardID << " " << hash::generate(this->cardID + this->pin);
     

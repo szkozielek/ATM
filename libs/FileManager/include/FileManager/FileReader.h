@@ -12,6 +12,7 @@ class FileReader
 public:
     FileReader(const std::string &);
     std::string getLastLine();
+    bool isEmpty();
     bool isEOF();
     operator bool();
     template <typename T>

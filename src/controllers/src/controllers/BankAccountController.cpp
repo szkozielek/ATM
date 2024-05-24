@@ -31,8 +31,8 @@ void BankAccountController::create()
 
 void BankAccountController::getCash()
 {
+    ATM * atm;
     unsigned int toGet;
-    std::map<unsigned int, unsigned int> cash{{20, 1}, {50, 1}, {100, 20}, {200, 10}}; // temp
     std::map<unsigned int, unsigned int> cashToGive;                                   // temp
     std::map<unsigned int, unsigned int>::iterator cashIter;                           // temp
     std::string selectedOption = "";
@@ -67,18 +67,37 @@ void BankAccountController::getCash()
 
             try
             {
-                cashToGive = changemaking::getCash(cash, toGet);
-                *this->output << colors::green << "Odbierz pieniadze z automatu: " << colors::white << std::endl;
+                atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), "PLN");
+                cashToGive = changemaking::getCash(atm->getCash(), toGet);
+                atm->grabCash(cashToGive);
+                atm->update();
+                delete atm;
+                atm = nullptr;
+
+                *this->output << colors::green;
+                menu::line(*this->output, 70);
+                *this->output << std::endl << "Odbierz pieniadze z automatu: " << std::endl;
+                menu::line(*this->output, 70);
+                *this->output << colors::white << std::endl;
                 for (cashIter = cashToGive.begin(); cashIter != cashToGive.end(); ++cashIter)
                 {
-                    this->output->width(15);
-                    *this->output << colors::yellow << cashIter->first << "PLN" << colors::white << " => " << colors::green << cashIter->second << std::endl;
+                    *this->output << colors::yellow << std::setw(15) << cashIter->first << "PLN" << colors::white << " => " << colors::green << cashIter->second << std::endl;
                 }
-                *this->output << colors::white;
+                *this->output << colors::green;
+                menu::line(*this->output, 70);
+                *this->output << std::endl << colors::white;
             }
             catch (except::ImpossibleToChange e)
             {
-                *this->output << colors::red << "Nie mozna wyplacic. Brak dostatecznej liczby banknotow w bankomacie." << colors::white << std::endl;
+                if(atm != nullptr){
+                    delete atm;
+                }
+                
+                *this->output << colors::red;
+                menu::line(*this->output, 70);
+                *this->output << std::endl << "Nie mozna wyplacic. Brak dostatecznej liczby banknotow w bankomacie." << std::endl;
+                menu::line(*this->output, 70);
+                *this->output << std::endl << colors::white << std::endl;
             }
             this->input->ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             this->input->get();
@@ -88,6 +107,7 @@ void BankAccountController::getCash()
 }
 
 void BankAccountController::insertCash(){
+    ATM * atm;
     std::map<unsigned int, unsigned int> cash;
     bool isCurrencyNumber = true, isAmountNumber = true;
     std::string selectedOption = "", currency = "", amount = "";
@@ -154,7 +174,12 @@ void BankAccountController::insertCash(){
         }
         
     }while(selectedOption != "q");
-    
+
+    atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), "PLN");
+    atm->insertCash(cash);
+    atm->update();
+    delete atm;
+
 }
 
 

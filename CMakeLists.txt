@@ -79,3 +79,5 @@ foreach(CM_CURRENCY ${CM_CURRENCIES})
     configure_file(resources/currency.txt ${CM_ACCOUNT_DIR}/${CM_CURRENCY}.txt)
     # configure_file(resources/cashbox.txt ${CM_ATM_DIR}/${CM_CURRENCY}.txt)
 endforeach(CM_CURRENCY)
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${CM_ATM_DIR})

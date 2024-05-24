@@ -9,7 +9,7 @@ class FileWriter
     std::string path;
 
 public:
-    FileWriter(const std::string &, bool);
+    FileWriter(const std::string &, bool = true, bool = false);
     bool isEOF();
     bool isEmpty();
     template <typename T>

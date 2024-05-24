@@ -6,6 +6,7 @@
 #include <Menu/Menu.h>
 
 #include <models/BankAccount.h>
+#include <models/ATM.h>
 
 inline void bootstrap(const GetEnv *const config)
 {
@@ -17,4 +18,5 @@ inline void bootstrap(const GetEnv *const config)
     // set models global variables
     BankAccount::filedir = config->env("BANK_ACCOUNT_DIR", "");
     BankAccount::filename = config->env("BANK_ACCOUNT_FILENAME", "");
+    ATM::filedir = config->env("ATM_CASHBOX_DIR", "");
 }

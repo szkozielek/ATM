@@ -2,7 +2,7 @@
 
 FileReader::FileReader(const std::string &path) : path(path)
 {
-    this->file.open(this->path, std::ios::in);
+    this->file.open(this->path, std::fstream::in);
     if (!this->file.is_open())
     {
         throw except::FileNotFound((char *)this->path.c_str());
@@ -45,6 +45,19 @@ std::string FileReader::getLastLine()
     }
     std::getline(this->file, result);
     this->file.seekg(curPos);
+    return result;
+}
+
+bool FileReader::isEmpty()
+{
+    bool result = false;
+    std::streampos currentPos = this->file.tellg();
+    if(currentPos == -1){
+        return result;
+    }
+    this->file.seekg(std::ios::beg);
+    result = this->file.peek() == std::fstream::traits_type::eof();
+    this->file.seekg(currentPos);
     return result;
 }
 

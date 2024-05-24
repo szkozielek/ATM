@@ -1,6 +1,8 @@
 add_library(models 
     src/models/BankAccount.h
     src/models/BankAccount.cpp
+    src/models/ATM.h
+    src/models/ATM.cpp
 )
 
 target_include_directories(models PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

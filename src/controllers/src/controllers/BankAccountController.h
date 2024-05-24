@@ -17,6 +17,7 @@
 #include <layout/Password.h>
 
 #include <models/BankAccount.h>
+#include <models/ATM.h>
 
 #include "Controller.h"
 class BankAccountController : protected Controller{
