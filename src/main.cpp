@@ -1,5 +1,5 @@
-#include <app/Bootstrap.h>
-#include <app/App.h>
+#include <bootstrap/Init.h>
+#include <bootstrap/App.h>
 
 int main(const int argc, const char **const argv)
 {
@@ -10,7 +10,7 @@ int main(const int argc, const char **const argv)
     env = new GetEnv();
     env->getenv();
 
-    bootstrap(env); // ustawianie stałych globalnych
+    init(env); // ustawianie stałych globalnych
 
     myApp = new App(argc, argv, env, &std::cin, &std::cout); // Inicjacja aplikacji
     myApp->run();                                            // uruchomienie aplikacji

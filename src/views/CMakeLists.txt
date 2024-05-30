@@ -1,0 +1,22 @@
+add_library(views
+    src/views/View.h
+    src/views/View.cpp
+    src/views/SelectOptionView.h
+    src/views/SelectOptionView.cpp
+    src/views/PasswordView.h
+    src/views/PasswordView.cpp
+    src/views/NewCardIDView.h
+    src/views/NewCardIDView.cpp
+    src/views/InputView.h
+    src/views/MarkView.h
+    src/views/CollectMoneyView.h
+    src/views/CollectMoneyView.cpp
+    src/views/InsertCashView.h
+    src/views/InsertCashView.cpp
+    
+)
+
+target_include_directories(views PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+target_link_libraries(views ${CM_LIBRARIES})
+target_link_libraries(views layout)

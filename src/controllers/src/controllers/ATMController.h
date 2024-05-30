@@ -2,32 +2,33 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <iomanip>
+
+#include <views/MarkView.h>
+#include <views/InputView.h>
+#include <views/PasswordView.h>
+#include <views/NewCardIDView.h>
+#include <views/SelectOptionView.h>
+#include <views/CollectMoneyView.h>
+#include <views/InsertCashView.h>
 
 #include <GetEnv/GetEnv.h>
 #include <ChangeMaking/ChangeMaking.h>
 #include <ChangeMaking/ImpossibleToChange.h>
 
-#include <Menu/Colors.h>
 #include <Menu/Menu.h>
 #include <SmartString/SmartString.h>
-
-#include <layout/Select.h>
-#include <layout/ValidateError.h>
-#include <layout/Password.h>
 
 #include <models/BankAccount.h>
 #include <models/ATM.h>
 
 #include "Controller.h"
-class BankAccountController : protected Controller{
-    BankAccount * login();
+class ATMController : protected Controller
+{
+    // BankAccount * login();
     unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
 public:
-    BankAccountController(const GetEnv * const, std::istream * const, std::ostream * const);
-    void create();
+    ATMController(const GetEnv * const, std::istream * const, std::ostream * const);
+    // void create();
     void getCash();
     void insertCash();
-    
-
 };

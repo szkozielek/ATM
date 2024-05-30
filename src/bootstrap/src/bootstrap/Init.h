@@ -8,7 +8,7 @@
 #include <models/BankAccount.h>
 #include <models/ATM.h>
 
-inline void bootstrap(const GetEnv *const config)
+inline void init(const GetEnv *const config)
 {
     // set liblaries global variables 
     colors::useColors = (config->env("USE_COLORS", "true")) == "true";

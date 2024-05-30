@@ -22,10 +22,11 @@ set(CM_LIBRARIES
     Hash
 )
 set(CM_PROJECT_LIBS
-    app
+    bootstrap
     controllers
     layout
     models
+    views
 )
 
 project(${CM_PROJECT_NAME})

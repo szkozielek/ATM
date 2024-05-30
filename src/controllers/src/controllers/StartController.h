@@ -7,11 +7,11 @@
 #include <SmartString/SmartString.h>
 
 #include <layout/Cover.h>
-#include <layout/ValidateError.h>
-#include <layout/Select.h>
+
+#include <views/SelectOptionView.h>
 
 #include "Controller.h"
-#include "BankAccountController.h"
+#include "ATMController.h"
 
 class StartController : protected Controller
 {
