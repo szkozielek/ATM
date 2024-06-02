@@ -6,6 +6,7 @@
 #include <Menu/Menu.h>
 
 #include <models/BankAccount.h>
+#include <models/BankAccountBallance.h>
 #include <models/DebitCard.h>
 #include <models/ATM.h>
 
@@ -24,4 +25,5 @@ inline void init(const GetEnv *const config)
     DebitCard::filename = config->env("DEBIT_CARD_FILENAME", "");
 
     ATM::filedir = config->env("ATM_CASHBOX_DIR", "");
+    BankAccountBallance::filedir = config->env("ACCOUNT_BALANCE_DIR", "");
 }

@@ -11,7 +11,7 @@ void CardController::create(BankAccount * const account)
     char currentEl;
     PasswordView pin(this->input, this->output, "Wprowadz kod PIN do karty: ");
     NewCardIDView cardID(this->input, this->output);
-
+    menu::clearScreen(*this->output);
     pin.render();
     card = DebitCard::make(account->getID(), pin.get());
     cardID.setID(card->store());

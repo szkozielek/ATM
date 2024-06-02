@@ -4,26 +4,45 @@ ATMController::ATMController(
     const GetEnv * const config,
     std::istream * const in,
     std::ostream * const out
-) : Controller(config, in, out) 
+) : Controller(config, in, out), card(nullptr)
 {
 
 }
 
-// void BankAccountController::create()
-// {
-//     BankAccount * newAccount;
-//     char currentEl;
-//     PasswordView pin(this->input, this->output, "Wprowadz kod PIN do karty: ");
-//     NewCardIDView cardID(this->input, this->output);
+void ATMController::insertCard()
+{
+    bool done = false;
+    std::string cardID, pin;
+    InputView<std::string> loginInput(this->input, this->output, "Wprowadz karte: ");
+    PasswordView passwordInput(this->input, this->output, "Wprowadz pin: ");
+    ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
+    do{
+        menu::clearScreen(*this->output);
+        loginInput.render();
+        cardID = loginInput.get();
+        passwordInput.render();
+        pin = passwordInput.get();
+        try {
+            this->card = DebitCard::login(cardID, pin);
+            done = true;
+        } catch(const std::exception & e)
+        {
+            ErrorView error(this->output, "Podane dane sa nieprawidlowe.");
+            error.render();
+            tryAgain.render();
+            done = !tryAgain.get();
+        }
+    } while(!done);
+}
 
-//     pin.render();
-//     newAccount = BankAccount::make(pin.get());
-//     cardID.setID(newAccount->store());
-//     cardID.render();
-//     cardID.pressToContinue();
-
-//     delete newAccount;
-// }
+void ATMController::drawCard()
+{
+    if(this->card != nullptr)
+    {
+        delete this->card;
+        this->card = nullptr;
+    }
+}
 
 void ATMController::index()
 {
@@ -33,6 +52,10 @@ void ATMController::index()
         {"2", "Wplac pieniadze"}, 
         {"q", "Powrot"}
     });
+    this->insertCard();
+    if(this->card == nullptr){
+        return;
+    }
     do
     {
         select.render();
@@ -46,12 +69,14 @@ void ATMController::index()
             this->insertCash();
         }
     } while (selectedOption != "q");
+    this->drawCard();
 }
 
 void ATMController::getCash()
 {
-    ATM * atm;
-    unsigned int toGet;
+    ATM * atm = nullptr;
+    BankAccountBallance * ballance = nullptr;
+    unsigned long long toGet;
     std::map<unsigned int, unsigned int> cashToGive;                                   // temp
     std::map<unsigned int, unsigned int>::iterator cashIter;                           // temp
     std::string selectedOption, selectedCurrency = "PLN";
@@ -89,10 +114,17 @@ void ATMController::getCash()
 
             try
             {
+                ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
+                if(ballance->get() < toGet){
+                    throw std::exception();
+                }
                 atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
                 cashToGive = changemaking::getCash(atm->getCash(), toGet);
                 atm->grabCash(cashToGive);
                 atm->update();
+                ballance->withdraw(toGet);
+                delete ballance;
+                ballance = nullptr;
                 delete atm;
                 atm = nullptr;
                 collectMoney.setCash(cashToGive);
@@ -103,7 +135,20 @@ void ATMController::getCash()
                 if(atm != nullptr){
                     delete atm;
                 }
+                if(ballance != nullptr){
+                    delete ballance;
+                }
                 collectMoney.render("Nie mozna wyplacic. Brak dostatecznej liczby banknotow w bankomacie.");
+            }
+            catch(std::exception e)
+            {
+                if(atm != nullptr){
+                    delete atm;
+                }
+                if(ballance != nullptr){
+                    delete ballance;
+                }
+                collectMoney.render("Nie mozna wyplacic. Brak wystarczajacych srodkow na koncie.");
             }
             collectMoney.pressToContinue();
         }
@@ -112,6 +157,7 @@ void ATMController::getCash()
 
 void ATMController::insertCash(){
     ATM * atm;
+    BankAccountBallance * ballance;
     std::map<unsigned int, unsigned int> cash;
     bool isCurrencyNumber = true, isAmountNumber = true;
     std::string selectedOption = "", currency = "", amount = "", selectedCurrency = "PLN";
@@ -161,36 +207,18 @@ void ATMController::insertCash(){
         }
         
     }while(selectedOption != "q");
-
+    ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
     atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
     atm->insertCash(cash);
+
     atm->update();
+    ballance->deposit(ATMController::sumCash(cash));
     delete atm;
+    delete ballance;
+
+
 
 }
-
-
-// BankAccount * BankAccountController::login(){
-//     std::string cardID, pin;
-//     BankAccount * newAccount;
-
-//     menu::clearScreen(*this->output);
-
-//     this->output->width(15);
-//     *this->output << "Wprowadz ID karty: " << colors::yellow;
-//     *this->input >> cardID;
-//     *this->output << colors::white << std::endl;
-
-//     this->output->width(15);
-//     *this->output << "Wprowadz kod PIN do karty: ";
-//     menu::hideText(*this->output);
-//     *this->input >> pin;
-//     menu::showText(*this->output);
-
-//     newAccount = BankAccount::login(cardID, pin);
-
-//     return newAccount;
-// }
 
 unsigned int ATMController::sumCash(const std::map<unsigned int, unsigned int> & cash)
 {

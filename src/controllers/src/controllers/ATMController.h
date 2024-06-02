@@ -10,6 +10,7 @@
 #include <views/SelectOptionView.h>
 #include <views/CollectMoneyView.h>
 #include <views/InsertCashView.h>
+#include <views/ConfirmView.h>
 
 #include <GetEnv/GetEnv.h>
 #include <ChangeMaking/ChangeMaking.h>
@@ -18,17 +19,20 @@
 #include <Menu/Menu.h>
 #include <SmartString/SmartString.h>
 
-#include <models/BankAccount.h>
+#include <models/DebitCard.h>
+#include <models/BankAccountBallance.h>
 #include <models/ATM.h>
 
 #include "Controller.h"
 class ATMController : protected Controller
 {
-    // BankAccount * login();
+    DebitCard * card;
+    void insertCard();
+    void drawCard();
     unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
+
 public:
     ATMController(const GetEnv * const, std::istream * const, std::ostream * const);
-    // void create();
     void index();
     void getCash();
     void insertCash();

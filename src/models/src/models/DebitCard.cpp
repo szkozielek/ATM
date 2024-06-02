@@ -9,6 +9,36 @@ DebitCard::DebitCard(unsigned long long accountID, const std::string &pin) : pin
     this->generateCardID();
 }
 
+DebitCard::DebitCard(const std::string & cardID, const std::string &pin) : pin(pin), cardID(cardID)
+{
+    unsigned long long id = findID(cardID, pin);
+    if(id == 0){
+        throw std::exception();
+    }
+    this->accountID = id;
+}
+
+unsigned long long DebitCard::findID(const std::string & myCardID, const std::string & myPin)
+{   
+    FileReader * debitCardsResources;
+    std::string cardID, login;
+    unsigned long long id, hash, myHash, result = 0;
+
+    myHash = hash::generate(myCardID + myPin);
+    debitCardsResources = new FileReader( getFilePath() );
+
+    while(!debitCardsResources->isEOF()){
+        *debitCardsResources >> cardID >> id >> hash;
+        if(myCardID == cardID && myHash == hash){
+            result = id;
+        }
+    }
+
+    delete debitCardsResources;
+
+    return result;
+}
+
 std::string DebitCard::getFilePath()
 {
     return (filedir.size() > 0 ? (filedir + "/") : "") + filename;
@@ -17,6 +47,11 @@ std::string DebitCard::getFilePath()
 DebitCard * DebitCard::make(unsigned long long accountID, const std::string &pin)
 {
     return new DebitCard(accountID, pin);
+}
+
+DebitCard * DebitCard::login(const std::string &cardID, const std::string &pin)
+{
+    return new DebitCard(cardID, pin);
 }
 
 std::string DebitCard::store()
@@ -74,7 +109,11 @@ void DebitCard::generateCardID()
             this->cardID += tempDigits;
         }
     }
-    
+}
+
+unsigned long long DebitCard::getAccountID()
+{
+    return this->accountID;
 }
 
 // #include "BankAccount.h"

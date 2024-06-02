@@ -24,7 +24,7 @@ void BankAccountController::index()
         selectedOption = smartstring::lower(select.select());
         if (selectedOption == "1")
         {
-
+            this->show();
         }
         else if (selectedOption == "2")
         {
@@ -65,11 +65,15 @@ void BankAccountController::create()
     } while(!done);
 }
 
+void BankAccountController::show()
+{
+    
+}
+
 void BankAccountController::login()
 {
     bool done = false;
     std::string login, password;
-    BankAccount * account;
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz login: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz haslo: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
