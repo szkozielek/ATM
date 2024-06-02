@@ -3,48 +3,54 @@
 std::string BankAccount::filename = "";
 std::string BankAccount::filedir = "";
 
+BankAccount::BankAccount(const std::string &login, const std::string &password) : _login(login), _password(password)
+{
+
+}
+
+BankAccount::BankAccount(unsigned long long id, const std::string &login, const std::string &password) : _id(id), _login(login), _password(password)
+{
+
+}
+
 std::string BankAccount::getFilePath()
 {
     return (filedir.size() > 0 ? (filedir + "/") : "") + filename;
 }
 
-BankAccount * BankAccount::login(const std::string &cardID, const std::string &pin)
+
+bool BankAccount::checkIfExist(const std::string & myLogin)
 {
-    if(!checkIfValid(cardID, pin)){
-        throw std::exception();
-    }
-    return new BankAccount(cardID, pin);
-}
-
-BankAccount * BankAccount::make(const std::string &pin)
-{
-    return new BankAccount(pin);
-}
-
-BankAccount::BankAccount(const std::string &pin) : pin(pin)
-{
-    this->generateCardID();
-}
-
-BankAccount::BankAccount(const std::string &cardID, const std::string &pin) : pin(pin), cardID(cardID)
-{
-
-}
-
-bool BankAccount::checkIfValid(const std::string & myCardID, const std::string & myPin)
-{   
     FileReader * bankAccountsResources;
-    std::string cardID;
-    unsigned long long hash, myHash;
+    std::string login;
+    unsigned long long id, hash;
     bool result = false;
 
-    myHash = hash::generate(myCardID + myPin);
+    bankAccountsResources = new FileReader( getFilePath() );
+    while(!bankAccountsResources->isEOF()){
+        *bankAccountsResources >> id >> login >> hash;
+        if(myLogin == login){
+            result = true;
+        }
+    }
+    delete bankAccountsResources;
+
+    return result;
+}
+
+unsigned long long BankAccount::findID(const std::string & myLogin, const std::string & myPassword)
+{   
+    FileReader * bankAccountsResources;
+    std::string login;
+    unsigned long long id, hash, myHash, result = 0;
+
+    myHash = hash::generate(myLogin + myPassword);
     bankAccountsResources = new FileReader( getFilePath() );
 
     while(!bankAccountsResources->isEOF()){
-        *bankAccountsResources >> cardID >> hash;
-        if(myCardID == cardID && hash == myHash){
-            result = true;
+        *bankAccountsResources >> id >> login >> hash;
+        if(myLogin == login && myHash == hash){
+            result = id;
         }
     }
 
@@ -53,12 +59,29 @@ bool BankAccount::checkIfValid(const std::string & myCardID, const std::string &
     return result;
 }
 
-void BankAccount::generateCardID()
+BankAccount * BankAccount::login(const std::string &login, const std::string &password)
 {
-    bool findNextID;
-    short iter;
-    int digits[4];
-    std::string lastCardID, record, tempDigits, tempPartOfCardID;
+    unsigned long long id = findID(login, password);
+    if(id == 0){
+        throw std::exception();
+    }
+    return new BankAccount(id, login, password);
+}
+
+BankAccount * BankAccount::make(const std::string &login, const std::string &password)
+{
+    BankAccount * account;
+    if(checkIfExist(login)){
+        throw std::exception();
+    }
+    account = new BankAccount(login, password);
+    account->generateID();
+    return account;
+}
+
+void BankAccount::generateID()
+{
+    std::string record, lastID;
     FileReader * bankAccountsResources;
 
     bankAccountsResources = new FileReader( this->getFilePath() );
@@ -66,49 +89,28 @@ void BankAccount::generateCardID()
     delete bankAccountsResources;
 
     if(!record.size()){
-        this->cardID = "1000000000000000";
+        this->_id = 1;
     }
     else{
-        lastCardID = record.substr(0, record.find(' '));
-        digits[0] = std::stoi(lastCardID.substr(0, 4));
-        for(iter = 0; iter < 4; ++iter){
-            digits[iter] = std::stoi(lastCardID.substr((4 * iter), 4));
-        }
-        findNextID = true;
-        for(iter = 3; (iter >= 0) && findNextID; --iter){
-            if(digits[iter] < 9999){
-                digits[iter] += 1;
-                findNextID = false;
-            }
-            else{
-                digits[iter] = 0;
-            }
-        }
-        if(iter <= -1){
-            throw std::out_of_range("Brak wolnych numerow kart debetowych.");
-        }
-        this->cardID = "";
-        for(iter = 0; iter < 4; ++iter){
-            tempDigits = "0000";
-            tempPartOfCardID = std::to_string(digits[iter]);
-            tempDigits.replace(4 - tempPartOfCardID.size(), tempPartOfCardID.size(), tempPartOfCardID);
-            this->cardID += tempDigits;
-        }
-    }
-    
+        lastID = record.substr(0, record.find(' '));
+        this->_id = std::stoull(lastID) + 1;
+    } 
 }
 
-
-
-std::string BankAccount::store()
+unsigned long long BankAccount::store()
 {
     FileWriter * bankAccountsResources = new FileWriter(this->getFilePath(), true);
     if(!bankAccountsResources->isEmpty()){
         *bankAccountsResources << '\n';
     }
-    *bankAccountsResources << this->cardID << " " << hash::generate(this->cardID + this->pin);
+    *bankAccountsResources << this->_id << " " << this->_login << " " << hash::generate(this->_login + this->_password);
     
     delete bankAccountsResources;
 
-    return this->cardID;
+    return this->_id;
+}
+
+unsigned long long BankAccount::getID() const
+{
+    return this->_id;
 }

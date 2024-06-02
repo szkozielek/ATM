@@ -1,51 +1,42 @@
 #include "StartController.h"
 
 StartController::StartController(
-    const GetEnv *const config,
-    std::istream *const in,
-    std::ostream *const out
+    const GetEnv * const config,
+    std::istream * const in,
+    std::ostream * const out
 ) : Controller(config, in, out)
 {
 
 }
 
-void StartController::cover()
+void StartController::index()
 {
+    ATMController * atmCtrl;
+    BankController * bankCtrl;
+    std::string selectedOption = "";
+    SelectOptionView select(this->input, this->output, "Co chcesz dzisiaj zrobic?", {
+        {"1", "Uzyj bankomatu"}, 
+        {"2", "Zarzadzanie kontem"}, 
+        {"q", "Zakoncz prace"}
+    });
     layout::show<layout::Cover>(this->output);
     this->input->get();
     this->input->clear();
-}
-
-void StartController::index()
-{
-    std::string selectedOption = "";
-    SelectOptionView select(this->input, this->output, "Co chcesz dzisiaj zrobic?", {
-        // {"1", "Odbierz nowa karte"}, 
-        {"2", "Wyplac pieniadze"}, 
-        {"3", "Wplac pieniadze"}, 
-        {"q", "Zakoncz prace"}
-    });
-    
-    std::set<std::string> atmOptions = {"2", "3"};
     do
     {
         select.render();
         selectedOption = smartstring::lower(select.select());
-        if (atmOptions.find(selectedOption) != atmOptions.end())
+        if (selectedOption == "1")
         {
-            ATMController *ctrElement = new ATMController(this->config, this->input, this->output);
-            // if (selectedOption == "1")
-            // {
-            //     ctrElement->create();
-            // }
-            if (selectedOption == "2")
-            {
-                ctrElement->getCash();
-            }
-            else if (selectedOption == "3"){
-                ctrElement->insertCash();
-            }
-            delete ctrElement;
+            atmCtrl = new ATMController(this->config, this->input, this->output);
+            atmCtrl->index();
+            delete atmCtrl;
+        }
+        else if (selectedOption == "2")
+        {
+            bankCtrl = new BankController(this->config, this->input, this->output);
+            bankCtrl->index();
+            delete bankCtrl;
         }
     } while (selectedOption != "q");
     

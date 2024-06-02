@@ -13,7 +13,10 @@ add_library(views
     src/views/CollectMoneyView.cpp
     src/views/InsertCashView.h
     src/views/InsertCashView.cpp
-    
+    src/views/ConfirmView.h
+    src/views/ConfirmView.cpp
+    src/views/ErrorView.h
+    src/views/ErrorView.cpp
 )
 
 target_include_directories(views PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

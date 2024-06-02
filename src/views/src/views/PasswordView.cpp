@@ -7,7 +7,6 @@ PasswordView::PasswordView(std::istream * const input, std::ostream * const outp
 
 void PasswordView::render()
 {
-    menu::clearScreen(*this->output);
     this->output->width(15);
     *this->output << this->label;
 }

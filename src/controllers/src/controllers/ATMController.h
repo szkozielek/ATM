@@ -29,6 +29,7 @@ class ATMController : protected Controller
 public:
     ATMController(const GetEnv * const, std::istream * const, std::ostream * const);
     // void create();
+    void index();
     void getCash();
     void insertCash();
 };

@@ -5,6 +5,12 @@ add_library(controllers
     src/controllers/StartController.h
     src/controllers/ATMController.cpp
     src/controllers/ATMController.h
+    src/controllers/BankController.cpp
+    src/controllers/BankController.h
+    src/controllers/BankAccountController.cpp
+    src/controllers/BankAccountController.h
+    src/controllers/CardController.cpp
+    src/controllers/CardController.h
 )
 
 target_include_directories(controllers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -24,9 +24,6 @@ void CollectMoneyView::render()
 
 void CollectMoneyView::render(const std::string &error)
 {
-    *this->output << colors::red;
-    menu::line(*this->output, 70);
-    *this->output << std::endl << error << std::endl;
-    menu::line(*this->output, 70);
-    *this->output << std::endl << colors::white << std::endl;
+    ErrorView errorView(this->output, error);
+    errorView.render();
 }

@@ -12,11 +12,11 @@
 
 #include "Controller.h"
 #include "ATMController.h"
+#include "BankController.h"
 
 class StartController : protected Controller
 {
 public:
     StartController(const GetEnv *const, std::istream *const, std::ostream *const);
-    void cover();
     void index();
 };

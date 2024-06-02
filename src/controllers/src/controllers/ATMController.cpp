@@ -1,9 +1,9 @@
 #include "ATMController.h"
 
 ATMController::ATMController(
-    const GetEnv *const config,
-    std::istream *const in,
-    std::ostream *const out
+    const GetEnv * const config,
+    std::istream * const in,
+    std::ostream * const out
 ) : Controller(config, in, out) 
 {
 
@@ -24,6 +24,29 @@ ATMController::ATMController(
 
 //     delete newAccount;
 // }
+
+void ATMController::index()
+{
+    std::string selectedOption = "";
+    SelectOptionView select(this->input, this->output, "Bankomat. Wybierz opcje:", {
+        {"1", "Wyplac pieniadze"}, 
+        {"2", "Wplac pieniadze"}, 
+        {"q", "Powrot"}
+    });
+    do
+    {
+        select.render();
+        selectedOption = smartstring::lower(select.select());
+        if (selectedOption == "1")
+        {
+            this->getCash();
+        }
+        else if (selectedOption == "2")
+        {
+            this->insertCash();
+        }
+    } while (selectedOption != "q");
+}
 
 void ATMController::getCash()
 {

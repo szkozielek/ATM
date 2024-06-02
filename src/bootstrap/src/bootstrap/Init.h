@@ -6,6 +6,7 @@
 #include <Menu/Menu.h>
 
 #include <models/BankAccount.h>
+#include <models/DebitCard.h>
 #include <models/ATM.h>
 
 inline void init(const GetEnv *const config)
@@ -18,5 +19,9 @@ inline void init(const GetEnv *const config)
     // set models global variables
     BankAccount::filedir = config->env("BANK_ACCOUNT_DIR", "");
     BankAccount::filename = config->env("BANK_ACCOUNT_FILENAME", "");
+
+    DebitCard::filedir = config->env("DEBIT_CARD_DIR", "");
+    DebitCard::filename = config->env("DEBIT_CARD_FILENAME", "");
+
     ATM::filedir = config->env("ATM_CASHBOX_DIR", "");
 }

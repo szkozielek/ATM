@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <string>
 #include <exception>
 #include <stdexcept>
@@ -9,22 +8,24 @@
 #include <Hash/Hash.h>
 
 class BankAccount{
-
+private:
+    unsigned long long _id;
+    std::string _login, _password;
+private:
     static std::string getFilePath();
-    static bool checkIfValid(const std::string &, const std::string &);
-    
-    std::string pin, cardID;
+    static bool checkIfExist(const std::string &);
+    static unsigned long long findID(const std::string &, const std::string &);
 
-    void generateCardID();
-
-    BankAccount(const std::string &);
     BankAccount(const std::string &, const std::string &);
+    BankAccount(unsigned long long, const std::string &, const std::string &);
+    void generateID();
 
 public:
     static std::string filename;
     static std::string filedir;
-    static BankAccount * make(const std::string &);
+public:
+    static BankAccount * make(const std::string &, const std::string &);
     static BankAccount * login(const std::string &, const std::string &);
-    std::string store();
-
+    unsigned long long store();
+    unsigned long long getID() const;
 };

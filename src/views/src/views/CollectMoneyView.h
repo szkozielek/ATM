@@ -7,6 +7,7 @@
 #include <Menu/Menu.h>
 #include <Menu/Colors.h>
 #include "View.h"
+#include "ErrorView.h"
 
 class CollectMoneyView : public View
 {

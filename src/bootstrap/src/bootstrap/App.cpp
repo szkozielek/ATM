@@ -5,13 +5,15 @@ App::App(
     const char **const argv,
     const GetEnv *const config,
     std::istream *const in,
-    std::ostream *const out) : ConsoleKernel(argc, argv, config, in, out) {}
+    std::ostream *const out
+) : ConsoleKernel(argc, argv, config, in, out) 
+{
+    
+}
 
 void App::run()
 {
-    StartController *start = new StartController(this->config, this->input, this->output);
-    start->cover();
-    start->index();
-    delete start;
+    StartController start(this->config, this->input, this->output);
+    start.index();
     layout::show<layout::Exit>(this->output);
 }
