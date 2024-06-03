@@ -79,7 +79,7 @@ void ATMController::getCash()
     unsigned long long toGet;
     std::map<unsigned int, unsigned int> cashToGive;                                   // temp
     std::map<unsigned int, unsigned int>::iterator cashIter;                           // temp
-    std::string selectedOption, selectedCurrency = "PLN";
+    std::string selectedOption, selectedCurrency = this->selectCurrency();
     InputView<unsigned int> amountInput(this->input, this->output, "Wprowadz kwote: ");
     MarkView<std::string> amountMark(this->output, "Wyplacana kwota: ");
     CollectMoneyView collectMoney(this->input, this->output, "Odbierz pieniadze z automatu: ");
@@ -93,6 +93,10 @@ void ATMController::getCash()
         {"4", 200}, {"5", 300}, {"6", 400}, 
         {"7", 500}, {"8", 0}, {"q", 0}
     };
+    if(selectedCurrency == "q")
+    {
+        return;
+    }
     collectMoney.setCurrency(selectedCurrency);
     do
     {
@@ -160,7 +164,7 @@ void ATMController::insertCash(){
     BankAccountBallance * ballance;
     std::map<unsigned int, unsigned int> cash;
     bool isCurrencyNumber = true, isAmountNumber = true;
-    std::string selectedOption = "", currency = "", amount = "", selectedCurrency = "PLN";
+    std::string selectedOption = "", currency = "", amount = "", selectedCurrency = this->selectCurrency();
     unsigned int intCurrency = 0, intAmount = 0;
     size_t divider = 0;
     InsertCashView insertCash(this->input, this->output, selectedCurrency);
@@ -228,4 +232,23 @@ unsigned int ATMController::sumCash(const std::map<unsigned int, unsigned int> &
         result += iter->first * iter->second;
     }
     return result;
+}
+
+std::string ATMController::selectCurrency()
+{
+    size_t pos;
+    unsigned int iter = 0;
+    std::map<std::string, std::string> options;
+    std::string currencies = "", selectedVal;
+    CurrencyService service;
+    options = service.getOptions(this->config->env("CURRENCIES", "PLN"));
+    options.insert(std::make_pair<std::string, std::string>("q", "Powrot"));
+
+    SelectOptionView select(this->input, this->output, "Wybierz walute:",  options);
+    select.render();
+    selectedVal = select.select();
+    if(selectedVal == "q"){
+        return selectedVal;
+    }
+    return options[selectedVal];
 }

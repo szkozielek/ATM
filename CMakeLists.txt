@@ -27,6 +27,7 @@ set(CM_PROJECT_LIBS
     layout
     models
     views
+    services
 )
 
 project(${CM_PROJECT_NAME})

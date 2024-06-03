@@ -67,7 +67,22 @@ void BankAccountController::create()
 
 void BankAccountController::show()
 {
-    
+    std::map<std::string, std::string> currencies;
+    std::map<std::string, std::string>::iterator iter;
+    PasswordView tempView(this->input, this->output, "");
+    CurrencyService service;
+    BankAccountBallance * ballance;
+     
+    currencies = service.getOptions(this->config->env("CURRENCIES", "PLN"));
+    menu::clearScreen(*this->output);
+    for(iter = currencies.begin(); iter != currencies.end(); ++iter)
+    {
+        MarkView<unsigned long long> view(this->output, iter->second + " => ");
+        ballance = new BankAccountBallance(this->account->getID(), iter->second);
+        view.render(ballance->get());
+        delete ballance;
+    }
+    tempView.pressToContinue();
 }
 
 void BankAccountController::login()

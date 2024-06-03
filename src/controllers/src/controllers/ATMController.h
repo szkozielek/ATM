@@ -23,6 +23,8 @@
 #include <models/BankAccountBallance.h>
 #include <models/ATM.h>
 
+#include <services/CurrencyService.h>
+
 #include "Controller.h"
 class ATMController : protected Controller
 {
@@ -30,6 +32,7 @@ class ATMController : protected Controller
     void insertCard();
     void drawCard();
     unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
+    std::string selectCurrency();
 
 public:
     ATMController(const GetEnv * const, std::istream * const, std::ostream * const);

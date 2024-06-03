@@ -3,13 +3,19 @@
 #include <string>
 
 #include <GetEnv/GetEnv.h>
+#include <Menu/Menu.h>
 
 #include <models/BankAccount.h>
+#include <models/BankAccountBallance.h>
+
 #include <views/SelectOptionView.h>
 #include <views/InputView.h>
 #include <views/PasswordView.h>
 #include <views/ConfirmView.h>
 #include <views/ErrorView.h>
+#include <views/MarkView.h>
+
+#include <services/CurrencyService.h>
 
 #include "Controller.h"
 #include "CardController.h"
