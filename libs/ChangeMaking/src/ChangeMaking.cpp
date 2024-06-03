@@ -3,23 +3,24 @@
 unsigned int changemaking::infinity = -1;
 
 /**
- * @param availableCash - mapa w formacie [nominal => dostępne] oznaczająca ile jakich banknotów do wypłaty mamy dostępnych, np:
+ * @param availableCash - map in [denomination => available] format (how many are available for withdrawal)
+ * Example:
  * [
  *      100 => 2,
  *      200 => 4,
  *      500 => 10
  * ]
  *
- * @param amount - wartość, którą chcemy wypłacić
- * @return std::map<unsigned int, unsigned int> - mapa w formacie [nominal => do_wyplaty]
+ * @param amount - value up to grabs
+ * @return std::map<unsigned int, unsigned int> - map in [denomination => up_for_grabs] format
  */
 std::map<unsigned int, unsigned int> changemaking::getCash(const std::map<unsigned int, unsigned int> &availableCash, unsigned int amount)
 {
-    std::map<unsigned int, unsigned int> result; // wynik - ile jakiego banknotu wyplacic
+    std::map<unsigned int, unsigned int> result; // how much and what do withdraw
     std::map<unsigned int, unsigned int>::const_iterator iter;
     std::map<unsigned int, unsigned int>::const_reverse_iterator reversIter;
     unsigned int amountIter, cashIndex, currentAmount;
-    unsigned int ***tableOfCash; // tablica dynamiczna z wynikami
+    unsigned int ***tableOfCash; // dynamic table with results
 
     if (amount == changemaking::infinity)
     {
@@ -35,7 +36,7 @@ std::map<unsigned int, unsigned int> changemaking::getCash(const std::map<unsign
         }
     }
 
-    // wyswietlanie dynamicznej tablicy (to_debug)
+    // displaying dynamic table (to_debug)
     // changemaking::__showTable(tableOfCash, availableCash, amount);
 
     if (tableOfCash[availableCash.size()][amount][0] == changemaking::infinity)
@@ -64,7 +65,7 @@ void changemaking::__checkAmountForCurrentCash(unsigned int ***tableOfCash, cons
 {
     unsigned int counter, maxCountToCheck;
     /**
-     * Jeśli wartość mniejsza niż nominał, przepisz z góry
+     * rewrite as above if value less than face value
      */
     if (amount < cash->first)
     {
@@ -75,8 +76,8 @@ void changemaking::__checkAmountForCurrentCash(unsigned int ***tableOfCash, cons
     for (counter = 0; counter <= maxCountToCheck; ++counter)
     {
         /**
-         * sprawdź, czy wartość w wierszu wyżej przesuniętym w tył o (counter * wartość nominału) jest mniejsza od aktualnej
-         * i nie jest nieskończona
+         * check if the value in the line above moved back by (counter * nominal value) is smaller then the current one
+         * and in not infinite
          */
         if (
             tableOfCash[cashIndex - 1][amount - (counter * cash->first)][0] != changemaking::infinity &&
