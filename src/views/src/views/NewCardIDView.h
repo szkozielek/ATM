@@ -7,8 +7,9 @@
 class NewCardIDView : public View
 {
     std::string cardID;
+
 public:
-    NewCardIDView(std::istream * const, std::ostream * const);
+    NewCardIDView(std::istream *const, std::ostream *const);
     void render();
-    inline void setID(const std::string &cardID){ this->cardID = cardID; }
+    inline void setID(const std::string &cardID) { this->cardID = cardID; }
 };

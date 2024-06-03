@@ -11,7 +11,7 @@ namespace layout
         std::ostream *const output;
 
     public:
-        inline Layout(std::ostream *const output) : output(output), input(nullptr){}
+        inline Layout(std::ostream *const output) : output(output), input(nullptr) {}
         inline Layout(std::ostream *const output, std::istream *const input) : output(output), input(input) {}
         virtual void show() = 0;
     };

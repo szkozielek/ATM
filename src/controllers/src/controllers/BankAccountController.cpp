@@ -1,21 +1,17 @@
 #include "BankAccountController.h"
 
-BankAccountController::BankAccountController(const GetEnv * const config, std::istream * const input, std::ostream * const output) : Controller(config, input, output), account(nullptr)
+BankAccountController::BankAccountController(const GetEnv *const config, std::istream *const input, std::ostream *const output) : Controller(config, input, output), account(nullptr)
 {
-
 }
 
 void BankAccountController::index()
 {
     std::string selectedOption = "";
-    CardController * cardCtrl;
-    SelectOptionView select(this->input, this->output, "Zarzadzanie kontem. Wybierz opcje:", {
-        {"1", "Sprawdz saldo"}, 
-        {"2", "Zamow karte"}, 
-        {"q", "Wyloguj"}
-    });
+    CardController *cardCtrl;
+    SelectOptionView select(this->input, this->output, "Zarzadzanie kontem. Wybierz opcje:", {{"1", "Sprawdz saldo"}, {"2", "Zamow karte"}, {"q", "Wyloguj"}});
     this->login();
-    if(this->account == nullptr){
+    if (this->account == nullptr)
+    {
         return;
     }
     do
@@ -40,29 +36,32 @@ void BankAccountController::create()
 {
     bool done = false;
     std::string login, password;
-    BankAccount * account;
+    BankAccount *account;
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz login: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz haslo: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
-    do{
+    do
+    {
         menu::clearScreen(*this->output);
         loginInput.render();
         login = loginInput.get();
         passwordInput.render();
         password = passwordInput.get();
-        try {
+        try
+        {
             account = BankAccount::make(login, password);
             account->store();
             delete account;
             done = true;
-        } catch(const std::exception & e)
+        }
+        catch (const std::exception &e)
         {
             ErrorView error(this->output, "Podany login jest juz zajety.");
             error.render();
             tryAgain.render();
             done = !tryAgain.get();
         }
-    } while(!done);
+    } while (!done);
 }
 
 void BankAccountController::show()
@@ -71,11 +70,11 @@ void BankAccountController::show()
     std::map<std::string, std::string>::iterator iter;
     PasswordView tempView(this->input, this->output, "");
     CurrencyService service;
-    BankAccountBallance * ballance;
-     
+    BankAccountBallance *ballance;
+
     currencies = service.getOptions(this->config->env("CURRENCIES", "PLN"));
     menu::clearScreen(*this->output);
-    for(iter = currencies.begin(); iter != currencies.end(); ++iter)
+    for (iter = currencies.begin(); iter != currencies.end(); ++iter)
     {
         MarkView<unsigned long long> view(this->output, iter->second + " => ");
         ballance = new BankAccountBallance(this->account->getID(), iter->second);
@@ -92,33 +91,38 @@ void BankAccountController::login()
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz login: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz haslo: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
-    do{
+    do
+    {
         menu::clearScreen(*this->output);
         loginInput.render();
         login = loginInput.get();
         passwordInput.render();
         password = passwordInput.get();
-        try {
+        try
+        {
             this->account = BankAccount::login(login, password);
             done = true;
-        } catch(const std::exception & e)
+        }
+        catch (const std::exception &e)
         {
             ErrorView error(this->output, "Podane dane sa nieprawidlowe.");
             error.render();
             tryAgain.render();
             done = !tryAgain.get();
         }
-    } while(!done);
+    } while (!done);
 }
 
 void BankAccountController::logout()
 {
-    if(this->account != nullptr){
+    if (this->account != nullptr)
+    {
         delete this->account;
         this->account = nullptr;
     }
 }
 
-BankAccountController::~BankAccountController(){
+BankAccountController::~BankAccountController()
+{
     this->logout();
 }

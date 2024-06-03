@@ -1,8 +1,7 @@
 #include "CollectMoneyView.h"
 
-CollectMoneyView::CollectMoneyView(std::istream * const input, std::ostream * const output, const std::string & label) : View(input, output), label(label)
+CollectMoneyView::CollectMoneyView(std::istream *const input, std::ostream *const output, const std::string &label) : View(input, output), label(label)
 {
-
 }
 
 void CollectMoneyView::render()
@@ -10,7 +9,8 @@ void CollectMoneyView::render()
     std::map<unsigned int, unsigned int>::iterator iter;
     *this->output << colors::green;
     menu::line(*this->output, 70);
-    *this->output << std::endl << this->label << std::endl;
+    *this->output << std::endl
+                  << this->label << std::endl;
     menu::line(*this->output, 70);
     *this->output << colors::white << std::endl;
     for (iter = cash.begin(); iter != cash.end(); ++iter)
@@ -19,7 +19,8 @@ void CollectMoneyView::render()
     }
     *this->output << colors::green;
     menu::line(*this->output, 70);
-    *this->output << std::endl << colors::white;
+    *this->output << std::endl
+                  << colors::white;
 }
 
 void CollectMoneyView::render(const std::string &error)

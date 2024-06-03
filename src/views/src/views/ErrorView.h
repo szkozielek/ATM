@@ -5,10 +5,11 @@
 #include <Menu/Menu.h>
 #include "View.h"
 
-class ErrorView : private View 
+class ErrorView : private View
 {
     std::string error;
+
 public:
-    ErrorView(std::ostream * const, const std::string &);
+    ErrorView(std::ostream *const, const std::string &);
     void render();
 };

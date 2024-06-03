@@ -10,16 +10,15 @@ class MarkView : private View
     T value;
     std::string label;
     void render();
+
 public:
-    MarkView(std::ostream * const, const std::string &);
+    MarkView(std::ostream *const, const std::string &);
     void render(const T &);
 };
 
-
 template <typename T>
-MarkView<T>::MarkView(std::ostream * const output, const std::string & label) : View(nullptr, output), label(label)
+MarkView<T>::MarkView(std::ostream *const output, const std::string &label) : View(nullptr, output), label(label)
 {
-
 }
 
 template <typename T>
@@ -29,7 +28,7 @@ void MarkView<T>::render()
 }
 
 template <typename T>
-void MarkView<T>::render(const T & value)
+void MarkView<T>::render(const T &value)
 {
     this->value = value;
     this->render();

@@ -8,8 +8,9 @@
 class ConfirmView : private View
 {
     std::string label;
+
 public:
-    ConfirmView(std::istream * const, std::ostream * const, const std::string &);
+    ConfirmView(std::istream *const, std::ostream *const, const std::string &);
     void render();
     bool get();
 };

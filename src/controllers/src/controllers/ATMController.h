@@ -28,14 +28,14 @@
 #include "Controller.h"
 class ATMController : protected Controller
 {
-    DebitCard * card;
+    DebitCard *card;
     void insertCard();
     void drawCard();
     unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
     std::string selectCurrency();
 
 public:
-    ATMController(const GetEnv * const, std::istream * const, std::ostream * const);
+    ATMController(const GetEnv *const, std::istream *const, std::ostream *const);
     void index();
     void getCash();
     void insertCash();

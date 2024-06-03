@@ -1,12 +1,10 @@
 #include "ATMController.h"
 
 ATMController::ATMController(
-    const GetEnv * const config,
-    std::istream * const in,
-    std::ostream * const out
-) : Controller(config, in, out), card(nullptr)
+    const GetEnv *const config,
+    std::istream *const in,
+    std::ostream *const out) : Controller(config, in, out), card(nullptr)
 {
-
 }
 
 void ATMController::insertCard()
@@ -16,28 +14,31 @@ void ATMController::insertCard()
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz karte: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz pin: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
-    do{
+    do
+    {
         menu::clearScreen(*this->output);
         loginInput.render();
         cardID = loginInput.get();
         passwordInput.render();
         pin = passwordInput.get();
-        try {
+        try
+        {
             this->card = DebitCard::login(cardID, pin);
             done = true;
-        } catch(const std::exception & e)
+        }
+        catch (const std::exception &e)
         {
             ErrorView error(this->output, "Podane dane sa nieprawidlowe.");
             error.render();
             tryAgain.render();
             done = !tryAgain.get();
         }
-    } while(!done);
+    } while (!done);
 }
 
 void ATMController::drawCard()
 {
-    if(this->card != nullptr)
+    if (this->card != nullptr)
     {
         delete this->card;
         this->card = nullptr;
@@ -47,13 +48,10 @@ void ATMController::drawCard()
 void ATMController::index()
 {
     std::string selectedOption = "";
-    SelectOptionView select(this->input, this->output, "Bankomat. Wybierz opcje:", {
-        {"1", "Wyplac pieniadze"}, 
-        {"2", "Wplac pieniadze"}, 
-        {"q", "Powrot"}
-    });
+    SelectOptionView select(this->input, this->output, "Bankomat. Wybierz opcje:", {{"1", "Wyplac pieniadze"}, {"2", "Wplac pieniadze"}, {"q", "Powrot"}});
     this->insertCard();
-    if(this->card == nullptr){
+    if (this->card == nullptr)
+    {
         return;
     }
     do
@@ -74,26 +72,19 @@ void ATMController::index()
 
 void ATMController::getCash()
 {
-    ATM * atm = nullptr;
-    BankAccountBallance * ballance = nullptr;
+    ATM *atm = nullptr;
+    BankAccountBallance *ballance = nullptr;
     unsigned long long toGet;
-    std::map<unsigned int, unsigned int> cashToGive;                                   // temp
-    std::map<unsigned int, unsigned int>::iterator cashIter;                           // temp
+    std::map<unsigned int, unsigned int> cashToGive;         // temp
+    std::map<unsigned int, unsigned int>::iterator cashIter; // temp
     std::string selectedOption, selectedCurrency = this->selectCurrency();
     InputView<unsigned int> amountInput(this->input, this->output, "Wprowadz kwote: ");
     MarkView<std::string> amountMark(this->output, "Wyplacana kwota: ");
     CollectMoneyView collectMoney(this->input, this->output, "Odbierz pieniadze z automatu: ");
-    SelectOptionView select(this->input, this->output, "Wybierz kwote do wyplaty:",  {
-        {"1", "50" + selectedCurrency}, {"2", "100" + selectedCurrency}, {"3", "150" + selectedCurrency}, 
-        {"4", "200" + selectedCurrency}, {"5", "300" + selectedCurrency}, {"6", "400" + selectedCurrency}, 
-        {"7", "500" + selectedCurrency}, {"8", "Inna kwota"}, {"q", "Powrot"}
-    });
+    SelectOptionView select(this->input, this->output, "Wybierz kwote do wyplaty:", {{"1", "50" + selectedCurrency}, {"2", "100" + selectedCurrency}, {"3", "150" + selectedCurrency}, {"4", "200" + selectedCurrency}, {"5", "300" + selectedCurrency}, {"6", "400" + selectedCurrency}, {"7", "500" + selectedCurrency}, {"8", "Inna kwota"}, {"q", "Powrot"}});
     std::map<std::string, unsigned int> getOptions = {
-        {"1", 50}, {"2", 100}, {"3", 150}, 
-        {"4", 200}, {"5", 300}, {"6", 400}, 
-        {"7", 500}, {"8", 0}, {"q", 0}
-    };
-    if(selectedCurrency == "q")
+        {"1", 50}, {"2", 100}, {"3", 150}, {"4", 200}, {"5", 300}, {"6", 400}, {"7", 500}, {"8", 0}, {"q", 0}};
+    if (selectedCurrency == "q")
     {
         return;
     }
@@ -102,7 +93,7 @@ void ATMController::getCash()
     {
         select.render();
         selectedOption = smartstring::lower(select.select());
-        if (selectedOption != "q"  && (getOptions.find(selectedOption) != getOptions.end()))
+        if (selectedOption != "q" && (getOptions.find(selectedOption) != getOptions.end()))
         {
             menu::clearScreen(*this->output);
             if (selectedOption == "8")
@@ -119,7 +110,8 @@ void ATMController::getCash()
             try
             {
                 ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
-                if(ballance->get() < toGet){
+                if (ballance->get() < toGet)
+                {
                     throw std::exception();
                 }
                 atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
@@ -136,20 +128,24 @@ void ATMController::getCash()
             }
             catch (except::ImpossibleToChange e)
             {
-                if(atm != nullptr){
+                if (atm != nullptr)
+                {
                     delete atm;
                 }
-                if(ballance != nullptr){
+                if (ballance != nullptr)
+                {
                     delete ballance;
                 }
                 collectMoney.render("Nie mozna wyplacic. Brak dostatecznej liczby banknotow w bankomacie.");
             }
-            catch(std::exception e)
+            catch (std::exception e)
             {
-                if(atm != nullptr){
+                if (atm != nullptr)
+                {
                     delete atm;
                 }
-                if(ballance != nullptr){
+                if (ballance != nullptr)
+                {
                     delete ballance;
                 }
                 collectMoney.render("Nie mozna wyplacic. Brak wystarczajacych srodkow na koncie.");
@@ -159,9 +155,10 @@ void ATMController::getCash()
     } while (getOptions.find(selectedOption) == getOptions.end());
 }
 
-void ATMController::insertCash(){
-    ATM * atm;
-    BankAccountBallance * ballance;
+void ATMController::insertCash()
+{
+    ATM *atm;
+    BankAccountBallance *ballance;
     std::map<unsigned int, unsigned int> cash;
     bool isCurrencyNumber = true, isAmountNumber = true;
     std::string selectedOption = "", currency = "", amount = "", selectedCurrency = this->selectCurrency();
@@ -169,7 +166,8 @@ void ATMController::insertCash(){
     size_t divider = 0;
     InsertCashView insertCash(this->input, this->output, selectedCurrency);
 
-    do{
+    do
+    {
         insertCash.setCash(ATMController::sumCash(cash));
         if (divider == std::string::npos)
         {
@@ -189,28 +187,37 @@ void ATMController::insertCash(){
         isCurrencyNumber = true;
         isAmountNumber = true;
         divider = selectedOption.find('|');
-        if(divider != std::string::npos){
+        if (divider != std::string::npos)
+        {
             currency = selectedOption.substr(0, divider);
             amount = selectedOption.substr(divider + 1);
-            try{
+            try
+            {
                 intCurrency = std::stoul(currency);
-                try{
+                try
+                {
                     intAmount = std::stoul(amount);
-                    if(cash.find(intCurrency) == cash.end()){
+                    if (cash.find(intCurrency) == cash.end())
+                    {
                         cash.insert(std::pair<unsigned int, unsigned int>(intCurrency, intAmount));
                     }
-                    else{
+                    else
+                    {
                         cash[intCurrency] = cash[intCurrency] + intAmount;
                     }
-                }catch(const std::invalid_argument &e){
+                }
+                catch (const std::invalid_argument &e)
+                {
                     isAmountNumber = false;
                 }
-            }catch(const std::invalid_argument &e){
+            }
+            catch (const std::invalid_argument &e)
+            {
                 isCurrencyNumber = false;
             }
         }
-        
-    }while(selectedOption != "q");
+
+    } while (selectedOption != "q");
     ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
     atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
     atm->insertCash(cash);
@@ -219,16 +226,14 @@ void ATMController::insertCash(){
     ballance->deposit(ATMController::sumCash(cash));
     delete atm;
     delete ballance;
-
-
-
 }
 
-unsigned int ATMController::sumCash(const std::map<unsigned int, unsigned int> & cash)
+unsigned int ATMController::sumCash(const std::map<unsigned int, unsigned int> &cash)
 {
     std::map<unsigned int, unsigned int>::const_iterator iter;
     unsigned int result = 0;
-    for(iter = cash.begin(); iter != cash.end(); iter++){
+    for (iter = cash.begin(); iter != cash.end(); iter++)
+    {
         result += iter->first * iter->second;
     }
     return result;
@@ -244,10 +249,11 @@ std::string ATMController::selectCurrency()
     options = service.getOptions(this->config->env("CURRENCIES", "PLN"));
     options.insert(std::make_pair<std::string, std::string>("q", "Powrot"));
 
-    SelectOptionView select(this->input, this->output, "Wybierz walute:",  options);
+    SelectOptionView select(this->input, this->output, "Wybierz walute:", options);
     select.render();
     selectedVal = select.select();
-    if(selectedVal == "q"){
+    if (selectedVal == "q")
+    {
         return selectedVal;
     }
     return options[selectedVal];

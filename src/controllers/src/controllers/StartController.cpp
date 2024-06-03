@@ -1,24 +1,18 @@
 #include "StartController.h"
 
 StartController::StartController(
-    const GetEnv * const config,
-    std::istream * const in,
-    std::ostream * const out
-) : Controller(config, in, out)
+    const GetEnv *const config,
+    std::istream *const in,
+    std::ostream *const out) : Controller(config, in, out)
 {
-
 }
 
 void StartController::index()
 {
-    ATMController * atmCtrl;
-    BankController * bankCtrl;
+    ATMController *atmCtrl;
+    BankController *bankCtrl;
     std::string selectedOption = "";
-    SelectOptionView select(this->input, this->output, "Co chcesz dzisiaj zrobic?", {
-        {"1", "Uzyj bankomatu"}, 
-        {"2", "Zarzadzanie kontem"}, 
-        {"q", "Zakoncz prace"}
-    });
+    SelectOptionView select(this->input, this->output, "Co chcesz dzisiaj zrobic?", {{"1", "Uzyj bankomatu"}, {"2", "Zarzadzanie kontem"}, {"q", "Zakoncz prace"}});
     layout::show<layout::Cover>(this->output);
     this->input->get();
     this->input->clear();
@@ -39,5 +33,4 @@ void StartController::index()
             delete bankCtrl;
         }
     } while (selectedOption != "q");
-    
 }

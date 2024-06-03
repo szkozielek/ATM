@@ -12,12 +12,13 @@ class SelectOptionView : private View
     std::string label;
     std::set<std::string> errors;
     std::map<std::string, std::string> options;
-    
-    inline void clearErrors(){ this->errors.clear(); }
+
+    inline void clearErrors() { this->errors.clear(); }
     void standardValidation(const std::string &);
+
 public:
     SelectOptionView(std::istream *const, std::ostream *const, const std::string &, const std::map<std::string, std::string> &);
-    inline void addError(const std::string & error){ this->errors.insert(error); }
+    inline void addError(const std::string &error) { this->errors.insert(error); }
     void render();
     std::string select();
 };

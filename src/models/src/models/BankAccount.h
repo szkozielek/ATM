@@ -7,10 +7,12 @@
 #include <FileManager/FileWriter.h>
 #include <Hash/Hash.h>
 
-class BankAccount{
+class BankAccount
+{
 private:
     unsigned long long _id;
     std::string _login, _password;
+
 private:
     static std::string getFilePath();
     static bool checkIfExist(const std::string &);
@@ -23,9 +25,10 @@ private:
 public:
     static std::string filename;
     static std::string filedir;
+
 public:
-    static BankAccount * make(const std::string &, const std::string &);
-    static BankAccount * login(const std::string &, const std::string &);
+    static BankAccount *make(const std::string &, const std::string &);
+    static BankAccount *login(const std::string &, const std::string &);
     unsigned long long store();
     unsigned long long getID() const;
 };

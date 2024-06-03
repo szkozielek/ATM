@@ -20,13 +20,14 @@
 #include "Controller.h"
 #include "CardController.h"
 
-class BankAccountController : Controller 
+class BankAccountController : Controller
 {
-    BankAccount * account;
+    BankAccount *account;
     void login();
     void logout();
+
 public:
-    BankAccountController(const GetEnv * const, std::istream * const, std::ostream * const);
+    BankAccountController(const GetEnv *const, std::istream *const, std::ostream *const);
     void index();
     void create();
     void show();

@@ -1,9 +1,8 @@
 #include "PasswordView.h"
 
-PasswordView::PasswordView(std::istream * const input, std::ostream * const output, const std::string & label) : View(input, output), label(label)
+PasswordView::PasswordView(std::istream *const input, std::ostream *const output, const std::string &label) : View(input, output), label(label)
 {
-
-} 
+}
 
 void PasswordView::render()
 {

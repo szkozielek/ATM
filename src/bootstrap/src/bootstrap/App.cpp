@@ -5,10 +5,8 @@ App::App(
     const char **const argv,
     const GetEnv *const config,
     std::istream *const in,
-    std::ostream *const out
-) : ConsoleKernel(argc, argv, config, in, out) 
+    std::ostream *const out) : ConsoleKernel(argc, argv, config, in, out)
 {
-    
 }
 
 void App::run()

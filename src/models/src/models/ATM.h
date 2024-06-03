@@ -8,9 +8,10 @@
 class ATM
 {
     std::string UUID, currency;
-    std::map<unsigned int, unsigned int> * cash;
+    std::map<unsigned int, unsigned int> *cash;
     void loadCash();
     std::string getFilePath();
+
 public:
     static std::string filedir;
     ATM(const std::string &, const std::string &);

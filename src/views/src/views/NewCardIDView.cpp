@@ -1,8 +1,7 @@
 #include "NewCardIDView.h"
 
-NewCardIDView::NewCardIDView(std::istream * const input, std::ostream * const output) : View(input, output) 
+NewCardIDView::NewCardIDView(std::istream *const input, std::ostream *const output) : View(input, output)
 {
-
 }
 
 void NewCardIDView::render()

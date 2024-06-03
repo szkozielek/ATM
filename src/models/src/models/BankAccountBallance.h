@@ -12,6 +12,7 @@ class BankAccountBallance
     unsigned long long accountID;
     std::string getFilePath();
     void store(unsigned int, char);
+
 public:
     static std::string filedir;
     BankAccountBallance(unsigned long long, const std::string &);

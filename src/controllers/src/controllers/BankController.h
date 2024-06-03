@@ -12,10 +12,9 @@
 #include "Controller.h"
 #include "BankAccountController.h"
 
-
 class BankController : Controller
 {
 public:
-    BankController(const GetEnv * const, std::istream * const, std::ostream * const);
+    BankController(const GetEnv *const, std::istream *const, std::ostream *const);
     void index();
 };

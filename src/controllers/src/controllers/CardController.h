@@ -16,6 +16,6 @@
 class CardController : Controller
 {
 public:
-    CardController(const GetEnv * const, std::istream * const, std::ostream * const);
-    void create(BankAccount * const);
+    CardController(const GetEnv *const, std::istream *const, std::ostream *const);
+    void create(BankAccount *const);
 };

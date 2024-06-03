@@ -1,13 +1,12 @@
 #include "CardController.h"
 
-CardController::CardController(const GetEnv * const config, std::istream * const input, std::ostream * const output) : Controller(config, input, output)
+CardController::CardController(const GetEnv *const config, std::istream *const input, std::ostream *const output) : Controller(config, input, output)
 {
-
 }
 
-void CardController::create(BankAccount * const account)
+void CardController::create(BankAccount *const account)
 {
-    DebitCard * card;
+    DebitCard *card;
     char currentEl;
     PasswordView pin(this->input, this->output, "Wprowadz kod PIN do karty: ");
     NewCardIDView cardID(this->input, this->output);

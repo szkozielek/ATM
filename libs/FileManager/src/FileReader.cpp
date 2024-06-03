@@ -18,7 +18,8 @@ bool FileReader::isEOF()
     return this->file.eof();
 }
 
-FileReader::operator bool(){
+FileReader::operator bool()
+{
     return !this->isEOF();
 }
 
@@ -29,17 +30,21 @@ std::string FileReader::getLastLine()
     bool keepGoing = true;
     curPos = this->file.tellg();
     this->file.seekg(-1, std::ios_base::end);
-    while(keepGoing){
+    while (keepGoing)
+    {
         char ch;
         this->file.get(ch);
-        if((int)this->file.tellg() <= 1){
+        if ((int)this->file.tellg() <= 1)
+        {
             this->file.seekg(0);
             keepGoing = false;
         }
-        else if(ch == '\n'){
+        else if (ch == '\n')
+        {
             keepGoing = false;
         }
-        else{
+        else
+        {
             this->file.seekg(-2, std::ios_base::cur);
         }
     }
@@ -52,7 +57,8 @@ bool FileReader::isEmpty()
 {
     bool result = false;
     std::streampos currentPos = this->file.tellg();
-    if(currentPos == -1){
+    if (currentPos == -1)
+    {
         return result;
     }
     this->file.seekg(std::ios::beg);

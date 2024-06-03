@@ -31,7 +31,7 @@ std::ostream &menu::line(std::ostream &out, unsigned short length)
     return menu::drawSign(out, length, '-');
 }
 
-std::ostream & menu::hideText(std::ostream &out)
+std::ostream &menu::hideText(std::ostream &out)
 {
     if (menu::useConsoleHide)
     {
@@ -39,7 +39,7 @@ std::ostream & menu::hideText(std::ostream &out)
     }
     return out;
 }
-std::ostream & menu::showText(std::ostream &out)
+std::ostream &menu::showText(std::ostream &out)
 {
     if (menu::useConsoleHide)
     {

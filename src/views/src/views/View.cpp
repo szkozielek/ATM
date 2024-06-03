@@ -1,8 +1,7 @@
 #include "View.h"
 
-View::View(std::istream * const input, std::ostream * const output) : input(input), output(output)
+View::View(std::istream *const input, std::ostream *const output) : input(input), output(output)
 {
-
 }
 
 void View::pressToContinue()
