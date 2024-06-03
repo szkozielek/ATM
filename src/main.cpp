@@ -6,16 +6,16 @@ int main(const int argc, const char **const argv)
     GetEnv *env;
     App *myApp;
 
-    // pobieranie zmiennych środowiskowych
+    // loading environment variables
     env = new GetEnv();
     env->getenv();
 
-    init(env); // ustawianie stałych globalnych
+    init(env); // setting global variables
 
-    myApp = new App(argc, argv, env, &std::cin, &std::cout); // Inicjacja aplikacji
-    myApp->run();                                            // uruchomienie aplikacji
+    myApp = new App(argc, argv, env, &std::cin, &std::cout); // application initialization
+    myApp->run();                                            // launching the application
 
-    // zwolnienie pamięci
+    // free memory
     delete myApp;
     delete env;
 
