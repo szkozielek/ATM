@@ -3,12 +3,35 @@ Projekt na zaliczenie - "symulator" bankomatu.
 
 ## System requrement
 - [make](https://www.gnu.org/software/make/),
-- [cmake](https://cmake.org/download/) (wersja ^3.5.0),
-- kompilator C++ (najlepiej [mingw32 GCC 9.2.0](https://osdn.net/projects/mingw/downloads/72211/gcc-c++-9.2.0-2-mingw32-bin.tar.xz/)).
+- [cmake](https://cmake.odeleterg/download/) (wersja ^3.5.0),
+- kompilator C++ (najlepiej [mingw32 GCC 9.2.0](https://osdn.net/projects/mingw/downloads/72211/gcmake -S . -B ./buildcc-c++-9.2.0-2-mingw32-bin.tar.xz/)).
 
 ## Compilation
+Przy pierwszym uruchomieniu:
+
+```bash
+cmake --DCMAKE_BUILD_TYPE=Release -S . -B ./build
+```
+
+następnie:
+
+```bash
+cmake --build ./build
+```
 
 ## Running
+
+Po skompilowaniu w folderze *./build* (uruchomić należy w folderze, w którym znajduje się plik **.env**)
+
+(Windows)
+```bash
+./ATM.exe
+```
+
+(Linux)
+```bash
+./ATM
+```
 
 ## FAQ
 
@@ -31,7 +54,8 @@ na wartość **false** (interface nie będzie wtedy tak ładny jak mógłby, ale
 
 #### TODO:
 
-- README.md - dokończyć
+- README.md - dokończyć,
+- wycieki pamięci gdy brakuje plików - poprawić,
 - Własne błędy w miejsce std::exception i std::out_of_range,
 - Refaktoryzacja kodu - większa separacja layoutu od kontrollerów i widoków,
 - testy - aktualnie brak.
