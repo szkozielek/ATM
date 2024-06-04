@@ -12,12 +12,14 @@ void StartController::index()
     ATMController *atmCtrl;
     BankController *bankCtrl;
     std::string selectedOption = "";
+    SectionHeaderView header(this->output, "Start");
     SelectOptionView select(this->input, this->output, "Co chcesz dzisiaj zrobic?", {{"1", "Uzyj bankomatu"}, {"2", "Zarzadzanie kontem"}, {"q", "Zakoncz prace"}});
-    layout::show<layout::Cover>(this->output);
-    this->input->get();
-    this->input->clear();
+    CoverView cover(this->input, this->output);
+    cover.render();
+    cover.pressToContinue();
     do
     {
+        header.render();
         select.render();
         selectedOption = smartstring::lower(select.select());
         if (selectedOption == "1")

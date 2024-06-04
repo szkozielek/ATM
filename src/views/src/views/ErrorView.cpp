@@ -6,11 +6,5 @@ ErrorView::ErrorView(std::ostream *const output, const std::string &error) : Vie
 
 void ErrorView::render()
 {
-    *this->output << colors::red;
-    menu::line(*this->output, 70);
-    *this->output << std::endl
-                  << this->error << std::endl;
-    menu::line(*this->output, 70);
-    *this->output << std::endl
-                  << colors::white << std::endl;
+    layout::show<layout::Message>(this->output, this->error, colors::red);
 }

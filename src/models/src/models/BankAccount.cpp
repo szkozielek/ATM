@@ -120,3 +120,7 @@ unsigned long long BankAccount::getID() const
 {
     return this->_id;
 }
+std::string BankAccount::getLogin() const
+{
+    return this->_login;
+}

@@ -8,6 +8,7 @@
 #include <views/PasswordView.h>
 #include <views/ConfirmView.h>
 #include <views/ErrorView.h>
+#include <views/SectionHeaderView.h>
 
 #include "Controller.h"
 #include "BankAccountController.h"

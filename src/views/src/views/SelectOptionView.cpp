@@ -15,8 +15,6 @@ void SelectOptionView::standardValidation(const std::string &selectedOption)
 void SelectOptionView::render()
 {
     std::set<std::string>::iterator iter;
-
-    menu::clearScreen(*this->output);
     *this->output << this->label << std::endl;
     for (iter = this->errors.begin(); iter != this->errors.end(); ++iter)
     {

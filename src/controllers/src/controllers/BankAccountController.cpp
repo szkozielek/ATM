@@ -8,14 +8,16 @@ void BankAccountController::index()
 {
     std::string selectedOption = "";
     CardController *cardCtrl;
-    SelectOptionView select(this->input, this->output, "Zarzadzanie kontem. Wybierz opcje:", {{"1", "Sprawdz saldo"}, {"2", "Zamow karte"}, {"q", "Wyloguj"}});
+    SelectOptionView select(this->input, this->output, "Wybierz opcje:", {{"1", "Sprawdz saldo"}, {"2", "Zamow karte"}, {"3", "Moje karty"}, {"q", "Wyloguj"}});
     this->login();
     if (this->account == nullptr)
     {
         return;
     }
+    SectionHeaderView header(this->output, "Konto - \"" + this->account->getLogin() + "\"");
     do
     {
+        header.render();
         select.render();
         selectedOption = smartstring::lower(select.select());
         if (selectedOption == "1")
@@ -26,6 +28,12 @@ void BankAccountController::index()
         {
             cardCtrl = new CardController(this->config, this->input, this->output);
             cardCtrl->create(this->account);
+            delete cardCtrl;
+        }
+        else if (selectedOption == "3")
+        {
+            cardCtrl = new CardController(this->config, this->input, this->output);
+            cardCtrl->index(this->account);
             delete cardCtrl;
         }
     } while (selectedOption != "q");
@@ -39,10 +47,11 @@ void BankAccountController::create()
     BankAccount *account;
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz login: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz haslo: ");
+    SectionHeaderView header(this->output, "Dodawanie konta");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
     do
     {
-        menu::clearScreen(*this->output);
+        header.render();
         loginInput.render();
         login = loginInput.get();
         passwordInput.render();
@@ -67,21 +76,24 @@ void BankAccountController::create()
 void BankAccountController::show()
 {
     std::map<std::string, std::string> currencies;
+    std::map<std::string, unsigned long long> ballanceMap;
     std::map<std::string, std::string>::iterator iter;
-    PasswordView tempView(this->input, this->output, "");
+    SectionHeaderView header(this->output, "Saldo konta");
+    BallanceView ballanceView(this->input, this->output);
     CurrencyService service;
     BankAccountBallance *ballance;
 
     currencies = service.getOptions(this->config->env("CURRENCIES", "PLN"));
-    menu::clearScreen(*this->output);
+    header.render();
     for (iter = currencies.begin(); iter != currencies.end(); ++iter)
     {
-        MarkView<unsigned long long> view(this->output, iter->second + " => ");
         ballance = new BankAccountBallance(this->account->getID(), iter->second);
-        view.render(ballance->get());
+        ballanceMap.insert(std::pair<std::string, unsigned long long>(iter->second, ballance->get()));
         delete ballance;
     }
-    tempView.pressToContinue();
+    ballanceView.setBallance(ballanceMap);
+    ballanceView.render();
+    ballanceView.pressToContinue();
 }
 
 void BankAccountController::login()
@@ -91,9 +103,10 @@ void BankAccountController::login()
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz login: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz haslo: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
+    SectionHeaderView header(this->output, "Konto - logowanie");
     do
     {
-        menu::clearScreen(*this->output);
+        header.render();
         loginInput.render();
         login = loginInput.get();
         passwordInput.render();

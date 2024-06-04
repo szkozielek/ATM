@@ -7,12 +7,11 @@ InsertCashView::InsertCashView(std::istream *const input, std::ostream *const ou
 void InsertCashView::render()
 {
     std::set<std::string>::iterator iter;
-    menu::clearScreen(*this->output);
 
     *this->output << colors::red;
     *this->output << std::endl
                   << colors::white << "Aby zakonczyc wplacanie, wprowadz znak \"" << colors::yellow << "q" << colors::white << "\"" << std::endl
-                  << colors::red;
+                  << colors::cyan;
     menu::line(*this->output, 42);
     *this->output << std::endl
                   << colors::white;
@@ -22,7 +21,7 @@ void InsertCashView::render()
         *this->output << std::endl;
         menu::line(*this->output, 42);
         *this->output << std::endl
-                      << "Aktualnie wplacono:" << colors::green << std::setw(23) << this->cash << this->currency << colors::white << std::endl;
+                      << "Aktualnie wplacono:" << colors::green << std::setw(20) << this->cash << this->currency << colors::white << std::endl;
         menu::line(*this->output, 42);
         *this->output << std::endl;
     }

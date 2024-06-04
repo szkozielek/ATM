@@ -4,6 +4,8 @@ add_library(layout
     src/layout/Exit.h
     src/layout/Select.h
     src/layout/ValidateError.h
+    src/layout/Confirm.h
+    src/layout/Message.h
 )
 set_target_properties(layout PROPERTIES LINKER_LANGUAGE CXX)
 

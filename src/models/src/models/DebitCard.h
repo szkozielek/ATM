@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <set>
 #include <exception>
 #include <stdexcept>
 
@@ -26,6 +27,7 @@ public:
     static std::string filedir;
     static DebitCard *make(unsigned long long, const std::string &);
     static DebitCard *login(const std::string &, const std::string &);
+    static std::set<std::string> findByAccountID(unsigned long long);
     std::string store();
     unsigned long long getAccountID();
 };

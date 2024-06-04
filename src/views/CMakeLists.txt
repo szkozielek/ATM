@@ -17,6 +17,14 @@ add_library(views
     src/views/ConfirmView.cpp
     src/views/ErrorView.h
     src/views/ErrorView.cpp
+    src/views/CoverView.h
+    src/views/CoverView.cpp
+    src/views/SectionHeaderView.h
+    src/views/SectionHeaderView.cpp
+    src/views/MyCardIDsView.h
+    src/views/MyCardIDsView.cpp
+    src/views/BallanceView.h
+    src/views/BallanceView.cpp
 )
 
 target_include_directories(views PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

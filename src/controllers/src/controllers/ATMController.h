@@ -11,6 +11,7 @@
 #include <views/CollectMoneyView.h>
 #include <views/InsertCashView.h>
 #include <views/ConfirmView.h>
+#include <views/SectionHeaderView.h>
 
 #include <GetEnv/GetEnv.h>
 #include <ChangeMaking/ChangeMaking.h>
@@ -32,7 +33,7 @@ class ATMController : protected Controller
     void insertCard();
     void drawCard();
     unsigned int sumCash(const std::map<unsigned int, unsigned int> &);
-    std::string selectCurrency();
+    std::string selectCurrency(const std::string &);
 
 public:
     ATMController(const GetEnv *const, std::istream *const, std::ostream *const);

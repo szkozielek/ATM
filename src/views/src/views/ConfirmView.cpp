@@ -6,15 +6,16 @@ ConfirmView::ConfirmView(std::istream *const input, std::ostream *const output, 
 
 void ConfirmView::render()
 {
-    *this->output << this->label << " (" << colors::yellow << "tak" << colors::white << "/" << colors::yellow << "nie" << colors::white << "): ";
+    layout::show<layout::Confirm>(this->output, this->label);
 }
 
 bool ConfirmView::get()
 {
+    InputView<std::string> input(this->input, this->output, "");
     std::string selectedOption;
-    *this->output << colors::yellow;
-    *this->input >> selectedOption;
-    *this->output << colors::white << std::endl;
+    input.render();
+    selectedOption = input.get();
+
     selectedOption = smartstring::lower(selectedOption);
 
     return selectedOption == "t" || selectedOption == "tak";

@@ -11,12 +11,13 @@ void ATMController::insertCard()
 {
     bool done = false;
     std::string cardID, pin;
+    SectionHeaderView header(this->output, "Bankomat - logowanie");
     InputView<std::string> loginInput(this->input, this->output, "Wprowadz karte: ");
     PasswordView passwordInput(this->input, this->output, "Wprowadz pin: ");
     ConfirmView tryAgain(this->input, this->output, "Czy chcesz sprobowac jeszcze raz?");
     do
     {
-        menu::clearScreen(*this->output);
+        header.render();
         loginInput.render();
         cardID = loginInput.get();
         passwordInput.render();
@@ -48,7 +49,8 @@ void ATMController::drawCard()
 void ATMController::index()
 {
     std::string selectedOption = "";
-    SelectOptionView select(this->input, this->output, "Bankomat. Wybierz opcje:", {{"1", "Wyplac pieniadze"}, {"2", "Wplac pieniadze"}, {"q", "Powrot"}});
+    SectionHeaderView header(this->output, "Bankomat");
+    SelectOptionView select(this->input, this->output, "Wybierz opcje:", {{"1", "Wyplac pieniadze"}, {"2", "Wplac pieniadze"}, {"q", "Powrot"}});
     this->insertCard();
     if (this->card == nullptr)
     {
@@ -56,6 +58,7 @@ void ATMController::index()
     }
     do
     {
+        header.render();
         select.render();
         selectedOption = smartstring::lower(select.select());
         if (selectedOption == "1")
@@ -75,13 +78,14 @@ void ATMController::getCash()
     ATM *atm = nullptr;
     BankAccountBallance *ballance = nullptr;
     unsigned long long toGet;
-    std::map<unsigned int, unsigned int> cashToGive;         // temp
-    std::map<unsigned int, unsigned int>::iterator cashIter; // temp
-    std::string selectedOption, selectedCurrency = this->selectCurrency();
+    std::map<unsigned int, unsigned int> cashToGive;
+    std::map<unsigned int, unsigned int>::iterator cashIter;
+    std::string selectedOption, header = "Bankomat - wyplata", selectedCurrency = this->selectCurrency(header);
     InputView<unsigned int> amountInput(this->input, this->output, "Wprowadz kwote: ");
     MarkView<std::string> amountMark(this->output, "Wyplacana kwota: ");
     CollectMoneyView collectMoney(this->input, this->output, "Odbierz pieniadze z automatu: ");
     SelectOptionView select(this->input, this->output, "Wybierz kwote do wyplaty:", {{"1", "50" + selectedCurrency}, {"2", "100" + selectedCurrency}, {"3", "150" + selectedCurrency}, {"4", "200" + selectedCurrency}, {"5", "300" + selectedCurrency}, {"6", "400" + selectedCurrency}, {"7", "500" + selectedCurrency}, {"8", "Inna kwota"}, {"q", "Powrot"}});
+    SectionHeaderView headerView(this->output, header + " " + selectedCurrency);
     std::map<std::string, unsigned int> getOptions = {
         {"1", 50}, {"2", 100}, {"3", 150}, {"4", 200}, {"5", 300}, {"6", 400}, {"7", 500}, {"8", 0}, {"q", 0}};
     if (selectedCurrency == "q")
@@ -91,11 +95,12 @@ void ATMController::getCash()
     collectMoney.setCurrency(selectedCurrency);
     do
     {
+        headerView.render();
         select.render();
         selectedOption = smartstring::lower(select.select());
         if (selectedOption != "q" && (getOptions.find(selectedOption) != getOptions.end()))
         {
-            menu::clearScreen(*this->output);
+            headerView.render();
             if (selectedOption == "8")
             {
                 amountInput.render();
@@ -161,13 +166,15 @@ void ATMController::insertCash()
     BankAccountBallance *ballance;
     std::map<unsigned int, unsigned int> cash;
     bool isCurrencyNumber = true, isAmountNumber = true;
-    std::string selectedOption = "", currency = "", amount = "", selectedCurrency = this->selectCurrency();
+    std::string selectedOption = "", currency = "", amount = "", header = "Bankomat - Wplacanie", selectedCurrency = this->selectCurrency(header);
     unsigned int intCurrency = 0, intAmount = 0;
     size_t divider = 0;
     InsertCashView insertCash(this->input, this->output, selectedCurrency);
+    SectionHeaderView headerView(this->output, header + " " + selectedCurrency);
 
     do
     {
+        headerView.render();
         insertCash.setCash(ATMController::sumCash(cash));
         if (divider == std::string::npos)
         {
@@ -239,17 +246,18 @@ unsigned int ATMController::sumCash(const std::map<unsigned int, unsigned int> &
     return result;
 }
 
-std::string ATMController::selectCurrency()
+std::string ATMController::selectCurrency(const std::string &headerLabel)
 {
     size_t pos;
     unsigned int iter = 0;
-    std::map<std::string, std::string> options;
-    std::string currencies = "", selectedVal;
+    std::string selectedVal;
     CurrencyService service;
-    options = service.getOptions(this->config->env("CURRENCIES", "PLN"));
+    SectionHeaderView header(this->output, headerLabel);
+    std::map<std::string, std::string> options(service.getOptions(this->config->env("CURRENCIES", "PLN")));
     options.insert(std::make_pair<std::string, std::string>("q", "Powrot"));
 
     SelectOptionView select(this->input, this->output, "Wybierz walute:", options);
+    header.render();
     select.render();
     selectedVal = select.select();
     if (selectedVal == "q")

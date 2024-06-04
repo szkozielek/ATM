@@ -6,9 +6,9 @@
 #include <GetEnv/GetEnv.h>
 #include <SmartString/SmartString.h>
 
-#include <layout/Cover.h>
-
 #include <views/SelectOptionView.h>
+#include <views/CoverView.h>
+#include <views/SectionHeaderView.h>
 
 #include "Controller.h"
 #include "ATMController.h"

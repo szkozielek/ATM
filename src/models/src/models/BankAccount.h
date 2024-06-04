@@ -31,4 +31,5 @@ public:
     static BankAccount *login(const std::string &, const std::string &);
     unsigned long long store();
     unsigned long long getID() const;
+    std::string getLogin() const;
 };

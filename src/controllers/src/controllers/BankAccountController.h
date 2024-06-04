@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <map>
 
 #include <GetEnv/GetEnv.h>
 #include <Menu/Menu.h>
@@ -14,6 +15,8 @@
 #include <views/ConfirmView.h>
 #include <views/ErrorView.h>
 #include <views/MarkView.h>
+#include <views/SectionHeaderView.h>
+#include <views/BallanceView.h>
 
 #include <services/CurrencyService.h>
 

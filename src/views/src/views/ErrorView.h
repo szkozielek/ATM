@@ -3,6 +3,7 @@
 #include <string>
 #include <Menu/Colors.h>
 #include <Menu/Menu.h>
+#include <layout/Message.h>
 #include "View.h"
 
 class ErrorView : private View

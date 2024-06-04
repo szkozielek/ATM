@@ -56,6 +56,29 @@ DebitCard *DebitCard::login(const std::string &cardID, const std::string &pin)
     return new DebitCard(cardID, pin);
 }
 
+std::set<std::string> DebitCard::findByAccountID(unsigned long long accountID)
+{
+    FileReader *debitCardsResources;
+    std::set<std::string> result;
+    std::string cardID;
+    unsigned long long id, hash;
+
+    debitCardsResources = new FileReader(getFilePath());
+
+    while (!debitCardsResources->isEOF())
+    {
+        *debitCardsResources >> cardID >> id >> hash;
+        if (id == accountID)
+        {
+            result.emplace(cardID);
+        }
+    }
+
+    delete debitCardsResources;
+
+    return result;
+}
+
 std::string DebitCard::store()
 {
     FileWriter *debitCardsResources = new FileWriter(this->getFilePath(), true);

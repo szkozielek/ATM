@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <Menu/Colors.h>
+#include <Menu/Menu.h>
 #include "View.h"
 
 class NewCardIDView : public View
