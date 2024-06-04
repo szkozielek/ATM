@@ -63,6 +63,12 @@ void BankAccountController::create()
             delete account;
             done = true;
         }
+        catch(const except::FileNotFound &e)
+        {
+            ErrorView error(this->output, "Nie znaleziono pliku z kontami bankowymi.");
+            error.render();
+            throw e;       
+        }
         catch (const std::exception &e)
         {
             ErrorView error(this->output, "Podany login jest juz zajety.");
@@ -115,6 +121,12 @@ void BankAccountController::login()
         {
             this->account = BankAccount::login(login, password);
             done = true;
+        }
+        catch(const except::FileNotFound &e)
+        {
+            ErrorView error(this->output, "Nie znaleziono pliku.");
+            error.render();
+            throw e;       
         }
         catch (const std::exception &e)
         {

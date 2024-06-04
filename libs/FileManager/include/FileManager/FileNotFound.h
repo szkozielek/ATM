@@ -1,14 +1,12 @@
 #pragma once
-#include <cstring>
+#include <string>
 #include "FileNotReadable.h"
 namespace except
 {
     class FileNotFound : public FileNotReadable
     {
-        char *filename;
-
     public:
-        FileNotFound(char *);
+        FileNotFound(const std::string &);
         virtual const char *what() const noexcept;
     };
 }

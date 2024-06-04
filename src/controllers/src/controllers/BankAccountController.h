@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 
+#include <FileManager/FileNotFound.h>
 #include <GetEnv/GetEnv.h>
 #include <Menu/Menu.h>
 

@@ -1,8 +1,11 @@
 #include "FileNotFound.h"
 
-except::FileNotFound::FileNotFound(char *filename) : FileNotReadable(filename) {}
+except::FileNotFound::FileNotFound(const std::string &msg) : FileNotReadable() 
+{
+    this->message = "File not found: " + msg;
+}
 
 const char *except::FileNotFound::what() const noexcept
 {
-    return strcat((char *)"File not found: ", this->filename);
+    return (this->message).c_str();
 }

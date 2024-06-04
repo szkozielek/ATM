@@ -1,15 +1,16 @@
 #pragma once
-#include <cstring>
+#include <string>
 #include <exception>
 
 namespace except
 {
     class FileNotReadable : public std::exception
     {
-        char *filename;
-
+    protected:
+        std::string message;
+        FileNotReadable();
     public:
-        FileNotReadable(char *);
+        FileNotReadable(const std::string &);
         virtual const char *what() const noexcept;
     };
 }
