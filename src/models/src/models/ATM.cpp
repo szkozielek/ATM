@@ -16,7 +16,7 @@ void ATM::loadCash()
 {
     unsigned int currency, amount;
     std::map<unsigned int, unsigned int> *result = new std::map<unsigned int, unsigned int>();
-    FileReader *cashResource;
+    FileReader *cashResource = nullptr;
     try
     {
         cashResource = new FileReader(this->getFilePath());
@@ -33,7 +33,10 @@ void ATM::loadCash()
     }
     catch (const except::FileNotFound &e)
     {
-        delete cashResource;
+        if(cashResource != nullptr)
+        {
+            delete cashResource;
+        }
     }
 
     this->cash = result;
