@@ -5,7 +5,14 @@ std::string DebitCard::filedir = "";
 
 DebitCard::DebitCard(unsigned long long accountID, const std::string &pin) : pin(pin), accountID(accountID)
 {
-    this->generateCardID();
+    try
+    {
+        this->generateCardID();
+    }
+    catch (const except::FileNotFound &e)
+    {
+        this->cardID = "1000000000000000";
+    }
 }
 
 DebitCard::DebitCard(const std::string &cardID, const std::string &pin) : pin(pin), cardID(cardID)
@@ -13,7 +20,7 @@ DebitCard::DebitCard(const std::string &cardID, const std::string &pin) : pin(pi
     unsigned long long id = findID(cardID, pin);
     if (id == 0)
     {
-        throw std::exception();
+        throw except::BadCredentials();
     }
     this->accountID = id;
 }
@@ -132,7 +139,7 @@ void DebitCard::generateCardID()
         }
         if (iter <= -1)
         {
-            throw std::out_of_range("Brak wolnych numerow kart debetowych.");
+            throw std::out_of_range("Brak wolnych numerow kart debetowych."); // TooManyCards
         }
         this->cardID = "";
         for (iter = 0; iter < 4; ++iter)

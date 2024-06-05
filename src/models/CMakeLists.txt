@@ -12,3 +12,4 @@ add_library(models
 target_include_directories(models PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(models ${CM_LIBRARIES})
+target_link_libraries(models exceptions)

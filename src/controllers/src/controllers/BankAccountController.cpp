@@ -63,13 +63,13 @@ void BankAccountController::create()
             delete account;
             done = true;
         }
-        catch(const except::FileNotFound &e)
+        catch (const except::FileNotFound &e)
         {
             ErrorView error(this->output, "Nie znaleziono pliku z kontami bankowymi.");
             error.render();
-            throw e;       
+            throw e;
         }
-        catch (const std::exception &e)
+        catch (const except::LoginInUse &e)
         {
             ErrorView error(this->output, "Podany login jest juz zajety.");
             error.render();
@@ -87,15 +87,28 @@ void BankAccountController::show()
     SectionHeaderView header(this->output, "Saldo konta");
     BallanceView ballanceView(this->input, this->output);
     CurrencyService service;
-    BankAccountBallance *ballance;
+    BankAccountBallance *ballance = nullptr;
 
     currencies = service.getOptions(this->config->env("CURRENCIES", "PLN"));
     header.render();
     for (iter = currencies.begin(); iter != currencies.end(); ++iter)
     {
-        ballance = new BankAccountBallance(this->account->getID(), iter->second);
-        ballanceMap.insert(std::pair<std::string, unsigned long long>(iter->second, ballance->get()));
-        delete ballance;
+        try
+        {
+            ballance = new BankAccountBallance(this->account->getID(), iter->second);
+            ballanceMap.insert(std::pair<std::string, unsigned long long>(iter->second, ballance->get()));
+            delete ballance;
+            ballance = nullptr;
+        }
+        catch (const except::FileNotFound &e)
+        {
+            ballanceMap.insert(std::pair<std::string, unsigned long long>(iter->second, 0));
+            if (ballance != nullptr)
+            {
+                delete ballance;
+                ballance = nullptr;
+            }
+        }
     }
     ballanceView.setBallance(ballanceMap);
     ballanceView.render();
@@ -122,13 +135,14 @@ void BankAccountController::login()
             this->account = BankAccount::login(login, password);
             done = true;
         }
-        catch(const except::FileNotFound &e)
+        catch (const except::FileNotFound &e)
         {
-            ErrorView error(this->output, "Nie znaleziono pliku.");
+            ErrorView error(this->output, "W systemie nie ma jeszcze zadnego konta.");
             error.render();
-            throw e;       
+            done = true;
+            passwordInput.pressToContinue();
         }
-        catch (const std::exception &e)
+        catch (const except::BadCredentials &e)
         {
             ErrorView error(this->output, "Podane dane sa nieprawidlowe.");
             error.render();

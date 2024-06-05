@@ -21,6 +21,9 @@
 
 #include <services/CurrencyService.h>
 
+#include <exceptions/BadCredentials.h>
+#include <exceptions/LoginInUse.h>
+
 #include "Controller.h"
 #include "CardController.h"
 

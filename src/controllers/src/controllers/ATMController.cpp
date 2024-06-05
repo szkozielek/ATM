@@ -27,7 +27,14 @@ void ATMController::insertCard()
             this->card = DebitCard::login(cardID, pin);
             done = true;
         }
-        catch (const std::exception &e)
+        catch (const except::FileNotFound &e)
+        {
+            ErrorView error(this->output, "Nie ma jeszcze w systemie zadnej karty.");
+            error.render();
+            done = true;
+            passwordInput.pressToContinue();
+        }
+        catch (const except::BadCredentials &e)
         {
             ErrorView error(this->output, "Podane dane sa nieprawidlowe.");
             error.render();
@@ -117,7 +124,7 @@ void ATMController::getCash()
                 ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
                 if (ballance->get() < toGet)
                 {
-                    throw std::exception();
+                    throw except::LackOfAccountFunds();
                 }
                 atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
                 cashToGive = changemaking::getCash(atm->getCash(), toGet);
@@ -131,7 +138,7 @@ void ATMController::getCash()
                 collectMoney.setCash(cashToGive);
                 collectMoney.render();
             }
-            catch (except::ImpossibleToChange e)
+            catch (const except::ImpossibleToChange &e)
             {
                 if (atm != nullptr)
                 {
@@ -143,7 +150,7 @@ void ATMController::getCash()
                 }
                 collectMoney.render("Nie mozna wyplacic. Brak dostatecznej liczby banknotow w bankomacie.");
             }
-            catch (std::exception e)
+            catch (const except::LackOfAccountFunds &e)
             {
                 if (atm != nullptr)
                 {
@@ -154,6 +161,30 @@ void ATMController::getCash()
                     delete ballance;
                 }
                 collectMoney.render("Nie mozna wyplacic. Brak wystarczajacych srodkow na koncie.");
+            }
+            catch (const except::FileNotFound &e)
+            {
+                if (atm != nullptr)
+                {
+                    delete atm;
+                }
+                if (ballance != nullptr)
+                {
+                    delete ballance;
+                }
+                collectMoney.render("Nie mozna wyplacic. Brak wystarczajacych srodkow na koncie.");
+            }
+            catch (const std::exception &e)
+            {
+                if (atm != nullptr)
+                {
+                    delete atm;
+                }
+                if (ballance != nullptr)
+                {
+                    delete ballance;
+                }
+                throw e;
             }
             collectMoney.pressToContinue();
         }
@@ -171,6 +202,11 @@ void ATMController::insertCash()
     size_t divider = 0;
     InsertCashView insertCash(this->input, this->output, selectedCurrency);
     SectionHeaderView headerView(this->output, header + " " + selectedCurrency);
+
+    if (selectedCurrency == "q")
+    {
+        return;
+    }
 
     do
     {
@@ -225,6 +261,7 @@ void ATMController::insertCash()
         }
 
     } while (selectedOption != "q");
+
     ballance = new BankAccountBallance(this->card->getAccountID(), selectedCurrency);
     atm = new ATM(this->config->env("ATM_ID_KEY", "0000"), selectedCurrency);
     atm->insertCash(cash);

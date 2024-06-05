@@ -4,6 +4,7 @@
 #include <string>
 #include <iomanip>
 #include <Menu/Colors.h>
+#include <Menu/Menu.h>
 #include "View.h"
 
 class BallanceView : public View

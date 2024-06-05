@@ -1,12 +1,15 @@
 # ATM
-Projekt na zaliczenie - "symulator" bankomatu.
+
+"Symulator" bankomatu - projekt na zaliczenie przedmiotu Programowanie Obiektowe.
 
 ## System requrement
+
 - [make](https://www.gnu.org/software/make/),
 - [cmake](https://cmake.odeleterg/download/) (wersja ^3.5.0),
-- kompilator C++ (najlepiej [mingw32 GCC 9.2.0](https://osdn.net/projects/mingw/downloads/72211/gcc-c++-9.2.0-2-mingw32-bin.tar.xz/)).
+- kompilator C++ (testowany [mingw32 GCC 9.2.0](https://osdn.net/projects/mingw/downloads/72211/gcc-c++-9.2.0-2-mingw32-bin.tar.xz/)).
 
 ## Compilation
+
 Przy pierwszym uruchomieniu:
 
 ```bash
@@ -56,7 +59,7 @@ Po skompilowaniu w folderze *./build* (uruchomić należy w folderze, w którym 
 
 ## FAQ
 
-### Pojawiają mi się dziwne znaczki w konsoli. Nic nie widzę co zrobić?
+### Pojawiają mi się dziwne znaczki w konsoli. Nic nie widzę, co zrobić?
 
 Jeśli występuje u Ciebie taki problem, to oznacza, że Twoja konsola nie obsługuje kodów ucieczki ANSI (eng. *ANSI escape codes*). W takiej sytuacji należy w pliku .env w katalogu build
 ustawić opcje: 
@@ -67,8 +70,16 @@ ustawić opcje:
 
 na wartość **false** (interface nie będzie wtedy tak ładny jak mógłby, ale będzie funkcjonalny).
 
+### Otrzymuję komunikat "File not found: (...)", aplikacja nie działa!
+
+Program może tworzyć pliki potrzebne do funkjconowania, nie może jednak tworzyć katalogów. Ścieżka podana po dwukropku zapewne nie istnieje, więc i plik w niej nie może zostać utworzony.
+
+Utwórz ścieżkę folderów tak, aby zgadzała się z podaną w komunikacie, lub zmień konfigurację ścieżek do zasobów w pliku **.env**.
+
 ## Source
+
 Źródła, inspiracje:
+
 - [CMake-project-template](https://github.com/Jamagas/CMake/blob/master/README.md)
 - [ATM-Flowchart](https://www.softwareideas.net/a/395/atm-workflow-flowchart-)
 - [Dynamic-Change-Algorithm](https://pl.wikipedia.org/wiki/Problem_wydawania_reszty)
@@ -77,9 +88,8 @@ na wartość **false** (interface nie będzie wtedy tak ładny jak mógłby, ale
 
 Zadania odłożone na wieczne nigdy:
 
-- README.md - dokończyć,
-- wycieki pamięci gdy brakuje plików - poprawić,
-- Własne błędy w miejsce std::exception i std::out_of_range,
-- Refaktoryzacja kodu - większa separacja layoutu od kontrollerów i widoków,
-- testy - aktualnie brak.
-- wprowadzanie (opcjonalne) ID bankomatu jako parametr przy uruchomieniu aplikacji.
+- README.md - przetłumaczyć na j. angielski
+- Refaktoryzacja kodu - większa separacja layoutu od kontrolerów i widoków,
+- testy - aktualnie brak,
+- wprowadzanie (opcjonalne) ID bankomatu jako parametr przy uruchomieniu aplikacji,
+- Umożliwienie wykonania operacji na bankomacie bez używania interface-u (przez podanie odpowiednich parametrów przy uruchomieniu).

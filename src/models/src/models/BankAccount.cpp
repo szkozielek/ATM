@@ -65,7 +65,7 @@ BankAccount *BankAccount::login(const std::string &login, const std::string &pas
     unsigned long long id = findID(login, password);
     if (id == 0)
     {
-        throw std::exception();
+        throw except::BadCredentials();
     }
     return new BankAccount(id, login, password);
 }
@@ -73,9 +73,15 @@ BankAccount *BankAccount::login(const std::string &login, const std::string &pas
 BankAccount *BankAccount::make(const std::string &login, const std::string &password)
 {
     BankAccount *account;
-    if (checkIfExist(login))
+    try
     {
-        throw std::exception();
+        if (checkIfExist(login))
+        {
+            throw except::LoginInUse();
+        }
+    }
+    catch (const except::FileNotFound &e)
+    {
     }
     account = new BankAccount(login, password);
     account->generateID();
@@ -85,11 +91,22 @@ BankAccount *BankAccount::make(const std::string &login, const std::string &pass
 void BankAccount::generateID()
 {
     std::string record, lastID;
-    FileReader *bankAccountsResources;
-
-    bankAccountsResources = new FileReader(this->getFilePath());
-    record = bankAccountsResources->getLastLine();
-    delete bankAccountsResources;
+    FileReader *bankAccountsResources = nullptr;
+    try
+    {
+        bankAccountsResources = new FileReader(this->getFilePath());
+        record = bankAccountsResources->getLastLine();
+        delete bankAccountsResources;
+    }
+    catch (const except::FileNotFound &e)
+    {
+        this->_id = 1;
+        if (bankAccountsResources != nullptr)
+        {
+            delete bankAccountsResources;
+        }
+        return;
+    }
 
     if (!record.size())
     {

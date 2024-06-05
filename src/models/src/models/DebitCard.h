@@ -8,6 +8,7 @@
 #include <FileManager/FileReader.h>
 #include <FileManager/FileWriter.h>
 #include <Hash/Hash.h>
+#include <exceptions/BadCredentials.h>
 
 class DebitCard
 {

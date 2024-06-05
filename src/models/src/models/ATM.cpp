@@ -33,7 +33,7 @@ void ATM::loadCash()
     }
     catch (const except::FileNotFound &e)
     {
-        if(cashResource != nullptr)
+        if (cashResource != nullptr)
         {
             delete cashResource;
         }
@@ -72,7 +72,7 @@ void ATM::grabCash(const std::map<unsigned int, unsigned int> &cash)
     {
         if (this->cash->find(iter->first) == this->cash->end())
         {
-            throw std::exception();
+            throw except::LackOfAccountFunds();
         }
         else
         {

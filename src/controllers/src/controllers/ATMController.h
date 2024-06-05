@@ -25,6 +25,8 @@
 #include <models/ATM.h>
 
 #include <services/CurrencyService.h>
+#include <exceptions/LackOfAccountFunds.h>
+#include <exceptions/BadCredentials.h>
 
 #include "Controller.h"
 class ATMController : protected Controller

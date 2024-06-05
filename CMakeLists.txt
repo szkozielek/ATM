@@ -28,6 +28,7 @@ set(CM_PROJECT_LIBS
     models
     views
     services
+    exceptions
 )
 
 project(${CM_PROJECT_NAME})

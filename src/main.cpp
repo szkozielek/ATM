@@ -11,10 +11,11 @@ int main(const int argc, const char **const argv)
     // loading environment variables
     env = new GetEnv();
 
-    try{
+    try
+    {
         env->getenv();
     }
-    catch(except::FileNotFound &e)
+    catch (const except::FileNotFound &e)
     {
         std::cerr << e.what() << std::endl;
         delete env;
@@ -24,16 +25,17 @@ int main(const int argc, const char **const argv)
     init(env); // setting global variables
 
     myApp = new App(argc, argv, env, &std::cin, &std::cout); // application initialization
-    try{
-        myApp->run();                                            // launching the application
-    }catch(std::exception &e)
+    try
+    {
+        myApp->run(); // launching the application
+    }
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
         delete env;
         delete myApp;
         return 1;
     }
-    
 
     // free memory
     delete myApp;

@@ -6,6 +6,8 @@
 #include <FileManager/FileReader.h>
 #include <FileManager/FileWriter.h>
 #include <Hash/Hash.h>
+#include <exceptions/BadCredentials.h>
+#include <exceptions/LoginInUse.h>
 
 class BankAccount
 {
