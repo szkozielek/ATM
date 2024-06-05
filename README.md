@@ -10,7 +10,7 @@
 
 ## Compilation
 
-Przy pierwszym uruchomieniu:
+Przy pierwszym uruchomieniu w katalogu głównym projektu:
 
 ```bash
 cmake --DCMAKE_BUILD_TYPE=Release -S . -B ./build
